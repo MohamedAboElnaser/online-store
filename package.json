@@ -1,0 +1,13 @@
+{
+  "name": "online-store",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "repository": "https://github.com/MohamedAboElnaser/online-store.git",
+  "author": "Mohamed_aboelnasr <moohamedaboelnasr@outlook.com>",
+  "license": "MIT"
+}
