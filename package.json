@@ -2,12 +2,18 @@
   "name": "online-store",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "src/server.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "repository": "https://github.com/MohamedAboElnaser/online-store.git",
   "author": "Mohamed_aboelnasr <moohamedaboelnasr@outlook.com>",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "prisma": "^5.12.1"
+  },
+  "dependencies": {
+    "@prisma/client": "5.11.0"
+  }
 }
