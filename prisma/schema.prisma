@@ -23,7 +23,7 @@ model User {
   password   String
   role       Role        @default(CUSTOMER)
   createdAt  DateTime    @default(now())
-  updatedAt  DateTime    @updatedAt
+  updatedAt  DateTime?    @updatedAt
   isVerified Boolean     @default(false)
   Reviews    Reviews[]
   Orders     Order[]
@@ -55,7 +55,7 @@ model Product {
   category     Category    @relation(fields: [categoryId], references: [id])
   categoryId   String      @map("category_id")
   createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
+  updatedAt    DateTime?    @updatedAt
   Reviews      Reviews[]
   OrderItem    OrderItem[]
   whishlist    whishlist[]
@@ -68,13 +68,13 @@ model Product {
 model Reviews {
   id        String   @id @default(uuid())
   rating    Int
-  comment   String
+  comment   String?
   user      User     @relation(fields: [userId], references: [id])
   userId    String   @map("user_id")
   product   Product  @relation(fields: [productId], references: [id])
   productId String   @map("product_id")
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime? @updatedAt
 
   @@map("reviews")
   @@schema("review")
@@ -84,10 +84,10 @@ model Order {
   id          String      @id @default(uuid())
   user        User        @relation(fields: [customerId], references: [id])
   customerId  String      @map("customer_id")
-  paidAt      DateTime // this will be set wen the status is completed
+  paidAt      DateTime? // this will be set wen the status is completed
   orderStatus OrderStatus @default(PENDING)
   createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  updatedAt   DateTime?    @updatedAt
   OrderItem   OrderItem[]
 
   @@map("orders")
@@ -103,7 +103,7 @@ model OrderItem {
   quantity  Int
   unitPrice Float    @map("unit_price")
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime? @updatedAt
 
   @@map("order_items")
   @@schema("order")
@@ -116,7 +116,7 @@ model whishlist {
   product    Product  @relation(fields: [productId], references: [id])
   productId  String   @map("product_id")
   createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  updatedAt  DateTime? @updatedAt
 
   @@map("whishlists")
   @@schema("user")
@@ -140,7 +140,7 @@ model CartItem {
   productId String   @map("product_id")
   quantity  Int
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime?  @updatedAt
 
   @@map("cart_items")
   @@schema("cart")
