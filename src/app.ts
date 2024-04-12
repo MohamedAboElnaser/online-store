@@ -4,10 +4,17 @@ import morgan from "morgan";
 import { mainRouter } from "./api/routes";
 import { globalErrorHandler } from "./api/middlewares"
 import { AppError } from "./util";
+import {DatabaseManager} from '../config'
+
+//load env variables
+dotenv.config();
+
 
 const app: Express = express();
 
-dotenv.config();
+DatabaseManager.getInstance();
+console.log(`connected to ${DatabaseManager.getDatabaseName()} DB 🛢️`);
+
 if (!(process.env.NODE_ENV === "production")) app.use(morgan("dev"));
 
 app.use(express.json());
