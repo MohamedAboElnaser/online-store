@@ -5,7 +5,7 @@
     "main": "src/server.ts",
     "scripts": {
         "start": "ts-node src/server.ts",
-        "dev": "nodemon"
+        "dev": "NODE_ENV=production && nodemon "
     },
     "keywords": [],
     "repository": "https://github.com/MohamedAboElnaser/online-store.git",

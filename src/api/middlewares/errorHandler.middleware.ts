@@ -1,5 +1,5 @@
 import {Request,Response,NextFunction} from 'express'
-import { AppError } from '../util'
+import { AppError } from '../../util'
 
 
 const developmentError = (err:AppError, req:Request,res:Response) => {

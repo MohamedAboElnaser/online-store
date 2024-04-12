@@ -1,8 +1,8 @@
 import express, { Express } from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
-import { mainRouter } from "./routes";
-import { globalErrorHandler } from "./middlewares";
+import { mainRouter } from "./api/routes";
+import { globalErrorHandler } from "./api/middlewares"
 import { AppError } from "./util";
 
 const app: Express = express();
