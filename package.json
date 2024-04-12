@@ -1,19 +1,29 @@
 {
-  "name": "online-store",
-  "version": "1.0.0",
-  "description": "",
-  "main": "src/server.ts",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "repository": "https://github.com/MohamedAboElnaser/online-store.git",
-  "author": "Mohamed_aboelnasr <moohamedaboelnasr@outlook.com>",
-  "license": "MIT",
-  "devDependencies": {
-    "prisma": "^5.12.1"
-  },
-  "dependencies": {
-    "@prisma/client": "5.11.0"
-  }
+    "name": "online-store",
+    "version": "1.0.0",
+    "description": "",
+    "main": "src/server.ts",
+    "scripts": {
+        "start": "ts-node src/server.ts",
+        "dev": "nodemon"
+    },
+    "keywords": [],
+    "repository": "https://github.com/MohamedAboElnaser/online-store.git",
+    "author": "Mohamed_aboelnasr <moohamedaboelnasr@outlook.com>",
+    "license": "MIT",
+    "devDependencies": {
+        "@types/express": "^4.17.21",
+        "@types/morgan": "^1.9.9",
+        "@types/node": "^20.12.5",
+        "nodemon": "^3.1.0",
+        "prisma": "^5.12.1",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.4.4"
+    },
+    "dependencies": {
+        "@prisma/client": "5.11.0",
+        "dotenv": "^16.4.5",
+        "express": "^4.19.2",
+        "morgan": "^1.10.0"
+    }
 }
