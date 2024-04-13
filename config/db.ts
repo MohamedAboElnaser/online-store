@@ -48,7 +48,7 @@ class DatabaseManager {
     }
 
     public static async disconnect(): Promise<void> {
-        await DatabaseManager.prisma.$disconnect();
+        await DatabaseManager?.prisma.$disconnect();
     }
 }
 export { DatabaseManager };
