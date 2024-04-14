@@ -153,6 +153,7 @@ model otps {
   userId    String    @map("user_id")
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
+  validTill DateTime  @map("valid_till")
 
   @@map("otps")
   @@schema("user")
