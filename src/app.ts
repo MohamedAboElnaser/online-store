@@ -2,13 +2,12 @@ import express, { Express } from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
 import { mainRouter } from "./api/routes";
-import { globalErrorHandler } from "./api/middlewares"
+import { globalErrorHandler } from "./api/middlewares";
 import { AppError } from "./util";
-import {DatabaseManager} from '../config'
+import { DatabaseManager } from "../config";
 
 //load env variables
 dotenv.config();
-
 
 const app: Express = express();
 
