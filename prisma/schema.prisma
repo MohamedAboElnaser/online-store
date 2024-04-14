@@ -5,14 +5,14 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["multiSchema"]
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
-  schemas = ["order", "user","product","review","cart"]
+  url      = env("DATABASE_DEV_URL")
+  schemas  = ["order", "user", "product", "review", "cart"]
 }
 
 model User {
@@ -23,24 +23,24 @@ model User {
   password   String
   role       Role        @default(CUSTOMER)
   createdAt  DateTime    @default(now())
-  updatedAt  DateTime?    @updatedAt
+  updatedAt  DateTime?   @updatedAt
   isVerified Boolean     @default(false)
   Reviews    Reviews[]
   Orders     Order[]
   whishlist  whishlist[]
   Cart       Cart[]
-  
+  otps       otps[]
 
   @@map("users")
   @@schema("user")
 }
 
 model Category {
-  id        String   @id @default(uuid())
+  id        String    @id @default(uuid())
   name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  Product Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  Product   Product[]
 
   @@map("categories")
   @@schema("product")
@@ -55,7 +55,7 @@ model Product {
   category     Category    @relation(fields: [categoryId], references: [id])
   categoryId   String      @map("category_id")
   createdAt    DateTime    @default(now())
-  updatedAt    DateTime?    @updatedAt
+  updatedAt    DateTime?   @updatedAt
   Reviews      Reviews[]
   OrderItem    OrderItem[]
   whishlist    whishlist[]
@@ -66,14 +66,14 @@ model Product {
 }
 
 model Reviews {
-  id        String   @id @default(uuid())
+  id        String    @id @default(uuid())
   rating    Int
   comment   String?
-  user      User     @relation(fields: [userId], references: [id])
-  userId    String   @map("user_id")
-  product   Product  @relation(fields: [productId], references: [id])
-  productId String   @map("product_id")
-  createdAt DateTime @default(now())
+  user      User      @relation(fields: [userId], references: [id])
+  userId    String    @map("user_id")
+  product   Product   @relation(fields: [productId], references: [id])
+  productId String    @map("product_id")
+  createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
   @@map("reviews")
@@ -82,12 +82,12 @@ model Reviews {
 
 model Order {
   id          String      @id @default(uuid())
-  user        User        @relation(fields: [customerId], references: [id])
+  user        User        @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   customerId  String      @map("customer_id")
   paidAt      DateTime? // this will be set wen the status is completed
   orderStatus OrderStatus @default(PENDING)
   createdAt   DateTime    @default(now())
-  updatedAt   DateTime?    @updatedAt
+  updatedAt   DateTime?   @updatedAt
   OrderItem   OrderItem[]
 
   @@map("orders")
@@ -95,14 +95,14 @@ model Order {
 }
 
 model OrderItem {
-  id        String   @id @default(uuid())
-  order     Order    @relation(fields: [orderId], references: [id])
-  orderId   String   @map("order_id")
-  product   Product  @relation(fields: [productId], references: [id])
-  productId String   @map("product_id")
+  id        String    @id @default(uuid())
+  order     Order     @relation(fields: [orderId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  orderId   String    @map("order_id")
+  product   Product   @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  productId String    @map("product_id")
   quantity  Int
-  unitPrice Float    @map("unit_price")
-  createdAt DateTime @default(now())
+  unitPrice Float     @map("unit_price")
+  createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
   @@map("order_items")
@@ -110,12 +110,12 @@ model OrderItem {
 }
 
 model whishlist {
-  id         String   @id @default(uuid())
-  user       User     @relation(fields: [customerId], references: [id])
-  customerId String   @map("customer_id")
-  product    Product  @relation(fields: [productId], references: [id])
-  productId  String   @map("product_id")
-  createdAt  DateTime @default(now())
+  id         String    @id @default(uuid())
+  user       User      @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  customerId String    @map("customer_id")
+  product    Product   @relation(fields: [productId], references: [id])
+  productId  String    @map("product_id")
+  createdAt  DateTime  @default(now())
   updatedAt  DateTime? @updatedAt
 
   @@map("whishlists")
@@ -124,7 +124,7 @@ model whishlist {
 
 model Cart {
   id         String     @id @default(uuid())
-  user       User       @relation(fields: [customerId], references: [id])
+  user       User       @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   customerId String     @map("customer_id")
   CartItem   CartItem[]
 
@@ -133,17 +133,29 @@ model Cart {
 }
 
 model CartItem {
-  id        String   @id @default(uuid())
-  cart      Cart     @relation(fields: [cartId], references: [id])
-  cartId    String   @map("cart_id")
-  product   Product  @relation(fields: [productId], references: [id])
-  productId String   @map("product_id")
+  id        String    @id @default(uuid())
+  cart      Cart      @relation(fields: [cartId], references: [id])
+  cartId    String    @map("cart_id")
+  product   Product   @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  productId String    @map("product_id")
   quantity  Int
-  createdAt DateTime @default(now())
-  updatedAt DateTime?  @updatedAt
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
 
   @@map("cart_items")
   @@schema("cart")
+}
+
+model otps {
+  id        String    @id @default(uuid())
+  otp       String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId    String    @map("user_id")
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+
+  @@map("otps")
+  @@schema("user")
 }
 
 enum Role {
