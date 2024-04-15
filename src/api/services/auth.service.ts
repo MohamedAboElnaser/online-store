@@ -84,6 +84,41 @@ class AuthService {
             throw err;
         }
     }
+
+    public static async verify(otp: number): Promise<void> {
+        //validate the otp
+        const otpRecord = await DatabaseManager.getInstance().otps.findFirst({
+            where: {
+                otp: OTPService.hash(String(otp)),
+            },
+        });
+
+        if (!otpRecord) throw new AppError("invalid otp", 400);
+
+        if (otpRecord && otpRecord.validTill < new Date())
+            throw new AppError("otp expired, generate another one", 400);
+
+        await DatabaseManager.getInstance().$transaction([
+            //verify the user account and create his cart
+            DatabaseManager.getInstance().user.update({
+                where: {
+                    id: otpRecord.userId,
+                },
+                data: {
+                    isVerified: true,
+                    Cart: {
+                        create: {},
+                    },
+                },
+            }),
+            //delete the otp record
+            DatabaseManager.getInstance().otps.delete({
+                where: {
+                    id: otpRecord.id,
+                },
+            }),
+        ]);
+    }
 }
 
 export { AuthService };
