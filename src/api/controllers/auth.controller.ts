@@ -49,6 +49,22 @@ class AuthController {
             });
         }
     );
+
+    public static resendOTP = asyncHandler(
+        async (
+            req: Request<any, any, { email: string }>,
+            res: Response,
+            next: NextFunction
+        ) => {
+            const { email } = req.body;
+            const otp = await AuthService.regenerateOTP(email);
+            res.json({
+                status: "success",
+                message: `Check the confirmation otp code at ${email}`,
+                otp: process.env.NODE_ENV != "production" ? otp : undefined,
+            });
+        }
+    );
 }
 
 export default AuthController;
