@@ -119,6 +119,53 @@ class AuthService {
             }),
         ]);
     }
+
+    public static async regenerateOTP(email: string): Promise<number> {
+        //validate that email is exist and not verified
+        const user = await DatabaseManager.getInstance().user.findUnique({
+            where: {
+                email,
+            },
+        });
+
+        if (!user) throw new AppError("email not found", 400);
+
+        if (user && user.isVerified)
+            throw new AppError("the email already verified", 400);
+
+        //generate and hash otp
+        const otp = OTPService.generate(6);
+        const hashedOTP = OTPService.hash(String(otp));
+
+        //send otp to user via email
+        //TODO enhance the email body using a template
+        // new Email(email, "Regenerating the OTP", `your new otp is ${otp}`)
+        //     .send()
+        //     .then()
+        //     .catch((err) => {
+        //         throw err;
+        //     });
+        //delete the old otp record and create a new one
+            await DatabaseManager.getInstance().$transaction([
+                DatabaseManager.getInstance().otps.deleteMany({
+                    where: {
+                        userId: user.id,
+                    },
+                }),
+                DatabaseManager.getInstance().otps.create({
+                    data: {
+                        otp: hashedOTP,
+                        userId: user.id,
+                        validTill: new Date(
+                            Date.now() + 2 * 24 * 60 * 60 * 1000
+                        ), //2 days
+                    },
+                }),
+            ]);
+
+       
+        return otp;
+    }
 }
 
 export { AuthService };
