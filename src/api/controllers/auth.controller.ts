@@ -34,6 +34,21 @@ class AuthController {
             });
         }
     );
+
+    public static verifyAccount = asyncHandler(
+        async (
+            req: Request<any, any, { otp: number }>,
+            res: Response,
+            next: NextFunction
+        ) => {
+            const { otp } = req.body;
+            await AuthService.verify(otp);
+            res.json({
+                status: "success",
+                message: "Account verified successfully, You can login now.",
+            });
+        }
+    );
 }
 
 export default AuthController;
