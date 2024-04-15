@@ -1,7 +1,7 @@
 import * as joi from "joi";
 import { TEndpointSchema, TValidationSchema } from "validationSchema";
 
-const authSchema: TEndpointSchema[] = [
+const registerSchema: TEndpointSchema[] = [
     {
         method: "POST",
         schema: joi
@@ -16,8 +16,21 @@ const authSchema: TEndpointSchema[] = [
     },
 ];
 
+const verifyAccountSchema: TEndpointSchema[] = [
+    {
+        method: "POST",
+        target: "body",
+        schema: joi
+            .object({
+                otp: joi.number().integer().min(100000).max(999999).required(),
+            })
+            .prefs({ abortEarly: false, stripUnknown: true }),
+    },
+];
+
 const endpoints: TValidationSchema = {
-    "/register": authSchema,
+    "/register": registerSchema,
+    "/verify-account": verifyAccountSchema,
 };
 
 export default endpoints;
