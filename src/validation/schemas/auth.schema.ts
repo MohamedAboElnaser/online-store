@@ -28,9 +28,21 @@ const verifyAccountSchema: TEndpointSchema[] = [
     },
 ];
 
+const resendOTPSchema: TEndpointSchema[] = [
+    {
+        method: "POST",
+        target: "body",
+        schema: joi
+            .object({
+                email: joi.string().email().required(),
+            })
+            .prefs({ abortEarly: false, stripUnknown: true }),
+    },
+];
 const endpoints: TValidationSchema = {
     "/register": registerSchema,
     "/verify-account": verifyAccountSchema,
+    "/resend-otp": resendOTPSchema,
 };
 
 export default endpoints;
