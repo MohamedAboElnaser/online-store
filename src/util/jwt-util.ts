@@ -1,10 +1,11 @@
 import exp from "constants";
 import jwt from "jsonwebtoken";
+import { IToken } from "token";
 
 class JWTUtil {
     private constructor() {}
 
-    public static issueJWT(id: string) {
+    public static issueJWT(id: string): IToken {
         const payload = {
             id,
             iat: Date.now(),
