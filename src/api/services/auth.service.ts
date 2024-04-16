@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import { DatabaseManager } from "../../../config";
-import { OTPService, AppError, Email } from "../../util";
+import { OTPService, AppError, Email, JWTUtil } from "../../util";
+import { IToken } from "token";
 
 class AuthService {
     private constructor() {}
@@ -146,25 +147,48 @@ class AuthService {
         //         throw err;
         //     });
         //delete the old otp record and create a new one
-            await DatabaseManager.getInstance().$transaction([
-                DatabaseManager.getInstance().otps.deleteMany({
-                    where: {
-                        userId: user.id,
-                    },
-                }),
-                DatabaseManager.getInstance().otps.create({
-                    data: {
-                        otp: hashedOTP,
-                        userId: user.id,
-                        validTill: new Date(
-                            Date.now() + 2 * 24 * 60 * 60 * 1000
-                        ), //2 days
-                    },
-                }),
-            ]);
+        await DatabaseManager.getInstance().$transaction([
+            DatabaseManager.getInstance().otps.deleteMany({
+                where: {
+                    userId: user.id,
+                },
+            }),
+            DatabaseManager.getInstance().otps.create({
+                data: {
+                    otp: hashedOTP,
+                    userId: user.id,
+                    validTill: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000), //2 days
+                },
+            }),
+        ]);
 
-       
         return otp;
+    }
+
+    public static async login(
+        email: string,
+        password: string
+    ): Promise<IToken> {
+        //validate that the user exists
+        const user = await DatabaseManager.getInstance().user.findUnique({
+            where: {
+                email,
+            },
+        });
+
+        if (!user)
+            throw new AppError(
+                "There is no user attaches to this email ❌❗",
+                404
+            );
+
+        //validate the password
+        const isMatch = await bcrypt.compare(password, user.password);
+
+        if (!isMatch) throw new AppError("Wrong password, try again 🔐❌", 400);
+
+        //issue jwt
+        return JWTUtil.issueJWT(user.id);
     }
 }
 
