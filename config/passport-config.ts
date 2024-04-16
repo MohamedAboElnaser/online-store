@@ -25,9 +25,9 @@ const jwtStrategy = new Strategy(
         if the user is not found, done is called with false
         if there is an error, done is called with an error
         if (JWT_payload) {
-         * */
+         
+        */
         //fetch the user from the database using id
-        console.log("Jwt_payload===>", JWT_payload);
         DatabaseManager.getInstance()
             .user.findUnique({
                 where: {

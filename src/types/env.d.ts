@@ -16,5 +16,6 @@ declare namespace NodeJS {
         EMAIL_FROM: string;
         JWT_SECRET: string;
         JWT_VALIDITY: string;
+        COOKIE_EXPIRES_IN: string;
     }
 }

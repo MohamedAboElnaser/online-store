@@ -1,13 +1,17 @@
 import express, { Express } from "express";
 import dotenv from "dotenv";
 import morgan from "morgan";
+import passport from "passport";
 import { mainRouter } from "./api/routes";
 import { globalErrorHandler } from "./api/middlewares";
 import { AppError } from "./util";
-import { DatabaseManager } from "../config";
+import { DatabaseManager, passportConfig } from "../config";
 
 //load env variables
 dotenv.config();
+
+//configure passport middleware
+passportConfig(passport);
 
 const app: Express = express();
 
