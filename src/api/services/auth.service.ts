@@ -168,7 +168,7 @@ class AuthService {
     public static async login(
         email: string,
         password: string
-    ): Promise<IToken> {
+    ): Promise<string> {
         //validate that the user exists
         const user = await DatabaseManager.getInstance().user.findUnique({
             where: {

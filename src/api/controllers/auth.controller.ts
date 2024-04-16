@@ -73,7 +73,17 @@ class AuthController {
             next: NextFunction
         ) => {
             const { email, password } = req.body;
-            const { token } = await AuthService.login(email, password);
+            const token = await AuthService.login(email, password);
+
+            //attach token to the response cookie
+            res.cookie("jwt", token, {
+                expires: new Date(
+                    Date.now() + Number(process.env.COOKIE_EXPIRES_IN)
+                ),
+                httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+            });
+
             res.json({
                 status: "success",
                 message: "You login successfully 🔓",
