@@ -1,3 +1,3 @@
 import { DatabaseManager } from "./db";
-
-export { DatabaseManager };
+import passportConfig from "./passport-config";
+export { DatabaseManager, passportConfig };
