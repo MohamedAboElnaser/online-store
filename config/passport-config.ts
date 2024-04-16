@@ -2,17 +2,24 @@ import { Strategy } from "passport-jwt";
 import { ExtractJwt } from "passport-jwt";
 import { DatabaseManager } from "./db";
 import { AppError } from "../src/util";
+import { Request } from "express";
 
-let opts = {
-    jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    secretOrKey: process.env.JWT_SECRET,
-    algorithms: ["HS256"],
+//cookie extractor
+const cookieExtractor = function (req: Request) {
+    var token = null;
+    if (req && req.cookies) {
+        token = req.cookies["jwt"];
+    }
+    return token;
 };
 
 // verification  callback
 const jwtStrategy = new Strategy(
     {
-        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+        jwtFromRequest: ExtractJwt.fromExtractors([
+            ExtractJwt.fromAuthHeaderAsBearerToken(),
+            cookieExtractor,
+        ]),
         secretOrKey: process.env.JWT_SECRET,
         algorithms: ["HS256"],
     },

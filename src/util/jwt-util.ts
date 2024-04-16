@@ -1,10 +1,8 @@
 import jwt from "jsonwebtoken";
-import { IToken } from "token";
 
 class JWTUtil {
     private constructor() {}
-
-    public static issueJWT(id: string): IToken {
+    public static issueJWT(id: string) {
         const payload = {
             id,
             iat: Date.now(),
@@ -17,10 +15,7 @@ class JWTUtil {
             algorithm: "HS256",
         });
 
-        return {
-            token: `Bearer ${token}`,
-            validFor,
-        };
+        return token;
     }
 }
 
