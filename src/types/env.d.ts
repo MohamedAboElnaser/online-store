@@ -14,5 +14,7 @@ declare namespace NodeJS {
         SendinBlue_USER: string;
         SendinBlue_PASSWORD: string;
         EMAIL_FROM: string;
+        JWT_SECRET: string;
+        JWT_VALIDITY: string;
     }
 }
