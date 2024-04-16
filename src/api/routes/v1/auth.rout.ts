@@ -9,5 +9,6 @@ authRouter.use(validator(authSchemas));
 authRouter.route("/register").post(AuthController.register);
 authRouter.route("/verify-account").post(AuthController.verifyAccount);
 authRouter.route("/resend-otp").post(AuthController.resendOTP);
+authRouter.route("/login").post(AuthController.login);
 
 export { authRouter };

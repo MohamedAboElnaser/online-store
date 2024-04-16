@@ -65,6 +65,22 @@ class AuthController {
             });
         }
     );
+
+    public static login = asyncHandler(
+        async (
+            req: Request<any, any, { email: string; password: string }>,
+            res: Response,
+            next: NextFunction
+        ) => {
+            const { email, password } = req.body;
+            const { token } = await AuthService.login(email, password);
+            res.json({
+                status: "success",
+                message: "You login successfully 🔓",
+                token,
+            });
+        }
+    );
 }
 
 export default AuthController;
