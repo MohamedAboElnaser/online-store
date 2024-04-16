@@ -1,7 +1,8 @@
 import { Router } from "express";
 import v1Router from "./v1";
+import { AuthHandler } from "../middlewares";
 const mainRouter = Router();
-import passport from "passport";
+
 mainRouter.get("/api", (req, res) => {
     res.json({
         message: "api is working 🚀🚀",
@@ -10,16 +11,26 @@ mainRouter.get("/api", (req, res) => {
 
 //mount v1 router
 mainRouter.use("/api/v1", v1Router);
-//protected rout
+
+// Protected route
+mainRouter.get("/protect", AuthHandler.authenticate, (req, res) => {
+    res.json({
+        status: "success",
+        message: "You are authenticated",
+        user: req.user,
+    });
+});
 mainRouter.get(
-    "/protect",
-    passport.authenticate("jwt", { session: false }),
-    (req, res) =>
+    "/protect-admin",
+    AuthHandler.authenticate,
+    AuthHandler.authorize("CUSTOMER"),
+    (req, res) => {
         res.json({
             status: "success",
             message: "You are authenticated",
-            user: req.user,
-        })
+        });
+    }
 );
+
 export default mainRouter;
 export { mainRouter };
