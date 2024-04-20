@@ -12,6 +12,10 @@ class CategoriesService {
                     data: {
                         name: categoryName,
                     },
+                    select: {
+                        id: true,
+                        name: true,
+                    },
                 });
             return category;
         } catch (err) {
@@ -32,6 +36,11 @@ class CategoriesService {
                     data: {
                         name: name,
                     },
+                    select:{
+                        id: true,
+                        name: true,
+                        updatedAt: true
+                    }
                 });
             return category;
         } catch (err) {
