@@ -181,7 +181,8 @@ class AuthService {
                 "There is no user attaches to this email ❌❗",
                 404
             );
-
+        if (!user.isVerified)
+            throw new AppError("Please verify your email first to login", 400);
         //validate the password
         const isMatch = await bcrypt.compare(password, user.password);
 
