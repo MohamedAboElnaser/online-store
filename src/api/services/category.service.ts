@@ -38,6 +38,23 @@ class CategoriesService {
             throw new AppError("Category not found", 404);
         }
     }
+
+    public static async deleteMany(ids: string[]) {
+        try {
+            const categories =
+                await DatabaseManager.getInstance().category.deleteMany({
+                    where: {
+                        id: {
+                            in: ids,
+                        },
+                    },
+                });
+            return categories;
+        } catch (err) {
+            throw err;
+        }
+    }
 }
 
 export default CategoriesService;
+export { CategoriesService };
