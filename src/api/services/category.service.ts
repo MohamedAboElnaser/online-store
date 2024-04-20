@@ -1,3 +1,4 @@
+import { AppError } from "../../util";
 import { DatabaseManager } from "../../../config";
 import { ICategory } from "category";
 
@@ -18,6 +19,25 @@ class CategoriesService {
         }
     }
 
+    public static async updateOne(
+        categoryId: string,
+        name: string
+    ): Promise<ICategory> {
+        try {
+            const category =
+                await DatabaseManager.getInstance().category.update({
+                    where: {
+                        id: categoryId,
+                    },
+                    data: {
+                        name: name,
+                    },
+                });
+            return category;
+        } catch (err) {
+            throw new AppError("Category not found", 404);
+        }
+    }
 }
 
 export default CategoriesService;
