@@ -14,6 +14,7 @@ interface IProduct {
     categoryId: string;
     createdAt?: Date;
     updatedAt?: Date;
+    images: string[];
     Reviews?: IReview[];
     OrderItem?: IOrderItem[];
     whishlist?: IWishlist[];
