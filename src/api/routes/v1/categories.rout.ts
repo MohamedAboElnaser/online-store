@@ -28,5 +28,8 @@ categoriesRouter
         validator(categoriesSchemas),
         CategoriesController.updateCategory
     );
+
+//TODO - Add rate limiting middleware
+categoriesRouter.route("/").get(CategoriesController.fetchCategories);
 export default categoriesRouter;
 export { categoriesRouter };

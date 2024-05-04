@@ -49,6 +49,18 @@ class CategoriesController {
             });
         }
     );
+
+    public static fetchCategories = asyncHandler(
+        async (req: Request, res: Response, next: NextFunction) => {
+            const categories = await CategoriesService.getCategories();
+            res.status(200).json({
+                status: "success",
+                message: "Categories fetched successfully",
+                length: categories.length,
+                data: categories,
+            });
+        }
+    );
 }
 
 export default CategoriesController;
