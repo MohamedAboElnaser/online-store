@@ -42,3 +42,5 @@ yarn.lock
 
 # Ignore mail server config
 mail-server/*
+
+uploads-directory
