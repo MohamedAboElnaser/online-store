@@ -36,11 +36,11 @@ class CategoriesService {
                     data: {
                         name: name,
                     },
-                    select:{
+                    select: {
                         id: true,
                         name: true,
-                        updatedAt: true
-                    }
+                        updatedAt: true,
+                    },
                 });
             return category;
         } catch (err) {
@@ -62,6 +62,18 @@ class CategoriesService {
         } catch (err) {
             throw err;
         }
+    }
+
+    public static async getCategories(): Promise<ICategory[]> {
+        const categories =
+            await DatabaseManager.getInstance().category.findMany({
+                select: {
+                    id: true,
+                    name: true,
+                },
+            });
+
+        return categories;
     }
 }
 
