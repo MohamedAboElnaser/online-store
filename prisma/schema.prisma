@@ -56,6 +56,7 @@ model Product {
   categoryId   String      @map("category_id")
   createdAt    DateTime    @default(now())
   updatedAt    DateTime?   @updatedAt
+  images       String[]
   Reviews      Reviews[]
   OrderItem    OrderItem[]
   whishlist    whishlist[]
