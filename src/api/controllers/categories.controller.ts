@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { asyncHandler } from "../../util";
-import { CategoriesService } from "../services/category.service";
+import { CategoriesService } from "../services";
 
 class CategoriesController {
     private constructor() {}
