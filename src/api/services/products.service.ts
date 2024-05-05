@@ -59,6 +59,34 @@ class ProductsService {
             }
         }
     }
+
+    public static async getProduct(id: string) {
+        const product = await DatabaseManager.getInstance().product.findUnique({
+            where: {
+                id,
+            },
+            include: {
+                Reviews: {
+                    /*TODO 
+                        Add aggregation to get the average rating and photo of the user
+                    */
+                    select: {
+                        comment: true,
+                        rating: true,
+                        user: {
+                            select:{
+                                firstName:true,
+                            }
+                        },
+                    },
+                },
+            },
+        });
+        if (!product) {
+            throw new AppError(`No product found with this id:${id}`, 404);
+        }
+        return product;
+    }
 }
 
 export default ProductsService;
