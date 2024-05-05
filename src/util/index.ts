@@ -4,5 +4,14 @@ import OTPService from "./otp-util";
 import asyncHandler from "./async-handler";
 import JWTUtil from "./jwt-util";
 import { notImplementedHandler } from "./notImplemented";
+import CloudStorageService from "./cloud-storage-service";
 
-export { AppError, Email, OTPService, asyncHandler, JWTUtil, notImplementedHandler };
+export {
+    AppError,
+    Email,
+    OTPService,
+    asyncHandler,
+    JWTUtil,
+    notImplementedHandler,
+    CloudStorageService,
+};
