@@ -17,5 +17,8 @@ declare namespace NodeJS {
         JWT_SECRET: string;
         JWT_VALIDITY: string;
         COOKIE_EXPIRES_IN: string;
+        cloud_name: string;
+        api_key: string;
+        api_secret: string;
     }
 }
