@@ -1,12 +1,21 @@
 import { Request, Response, NextFunction } from "express";
 import { asyncHandler, notImplementedHandler } from "../../util";
+import { ProductsService } from "../services";
 
 class ProductsController {
     private constructor() {}
 
     public static createOne = asyncHandler(
         async (req: Request, res: Response, next: NextFunction) => {
-            notImplementedHandler(req, res);
+            const product = await ProductsService.createProduct(
+                req.body,
+                req.files as Express.Multer.File[]
+            );
+
+            res.status(201).json({
+                message: "Product created successfully",
+                product,
+            });
         }
     );
 
