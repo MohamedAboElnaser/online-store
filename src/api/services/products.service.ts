@@ -53,7 +53,7 @@ class ProductsService {
                 throw err;
             } else {
                 throw new AppError(
-                    "Error happen while creating the product",
+                    "Error happen while creating the product , categoryId is invalid",
                     500
                 );
             }
