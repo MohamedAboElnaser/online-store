@@ -32,8 +32,19 @@ class ProductsController {
     );
 
     public static getOne = asyncHandler(
-        async (req: Request, res: Response, next: NextFunction) => {
-            notImplementedHandler(req, res);
+        async (
+            req: Request<{ productId: string }>,
+            res: Response,
+            next: NextFunction
+        ) => {
+            const product = await ProductsService.getProduct(
+                req.params.productId
+            );
+
+            res.status(200).json({
+                message: "Product fetched successfully",
+                product,
+            });
         }
     );
 }
