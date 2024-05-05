@@ -1,9 +1,19 @@
 import { Router } from "express";
 import { ProductsController } from "../../controllers";
+import { validator, AuthHandler, MulterService } from "../../middlewares";
+import { productsSchemas } from "../../../validation/schemas";
 
 const productsRouter = Router();
 
-productsRouter.route("/").post(ProductsController.createOne);
+productsRouter
+    .route("/")
+    .post(
+        AuthHandler.authenticate,
+        AuthHandler.authorize("ADMIN"),
+        MulterService.multipleFiles("images", 4),
+        validator(productsSchemas),
+        ProductsController.createOne
+    );
 
 productsRouter
     .route("/:productId")
