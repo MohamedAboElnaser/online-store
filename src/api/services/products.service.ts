@@ -74,9 +74,9 @@ class ProductsService {
                         comment: true,
                         rating: true,
                         user: {
-                            select:{
-                                firstName:true,
-                            }
+                            select: {
+                                firstName: true,
+                            },
                         },
                     },
                 },
@@ -86,6 +86,64 @@ class ProductsService {
             throw new AppError(`No product found with this id:${id}`, 404);
         }
         return product;
+    }
+
+    public static async updateProduct(
+        id: string,
+        product: Pick<
+            IProduct,
+            "name" | "description" | "price" | "countInStock" | "categoryId"
+        >,
+        imagesFiles: Express.Multer.File[] | undefined
+    ) {
+        const productRecord =
+            await DatabaseManager.getInstance().product.findUnique({
+                where: {
+                    id,
+                },
+            });
+        if (!productRecord)
+            throw new AppError(`No product found with this id:${id}`, 404);
+
+        let updatedProduct, imagesURLs;
+        try {
+            if (imagesFiles && imagesFiles.length > 0) {
+                // delete the existing images
+                await CloudStorageService.deleteFolder(productRecord.id);
+                //upload the new images
+                imagesURLs = await CloudStorageService.uploadFiles(
+                    imagesFiles,
+                    productRecord.id
+                );
+            }
+            updatedProduct = await DatabaseManager.getInstance().product.update(
+                {
+                    where: {
+                        id,
+                    },
+                    data: {
+                        ...product,
+                        images: imagesURLs,
+                    },
+                    select: {
+                        id: true,
+                        name: true,
+                        description: true,
+                        price: true,
+                        countInStock: true,
+                        categoryId: true,
+                        images: true,
+                        updatedAt: true,
+                    },
+                }
+            );
+            return updatedProduct;
+        } catch (err) {
+            throw new AppError(
+                "Error happened while updating the product",
+                500
+            );
+        }
     }
 }
 
