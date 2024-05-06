@@ -5,6 +5,10 @@ import { ProductsService } from "../services";
 class ProductsController {
     private constructor() {}
 
+    /**
+     * @access private - only accessible to Admin users
+     * @route POST /api/v1/products
+     */
     public static createOne = asyncHandler(
         async (req: Request, res: Response, next: NextFunction) => {
             const product = await ProductsService.createProduct(
@@ -19,6 +23,10 @@ class ProductsController {
         }
     );
 
+    /**
+     * @access private - only accessible to Admin users
+     * @route PATCH /api/v1/products/:productId
+     */
     public static updateOne = asyncHandler(
         async (
             req: Request<{ productId: string }>,
@@ -39,6 +47,10 @@ class ProductsController {
         }
     );
 
+    /**
+     * @access private - only accessible to Admin users
+     * @route DELETE /api/v1/products
+     */
     public static deleteProducts = asyncHandler(
         async (req: Request, res: Response, next: NextFunction) => {
             await ProductsService.deleteMany(req.body.ids);
@@ -49,6 +61,10 @@ class ProductsController {
         }
     );
 
+    /**
+     * @route GET /api/v1/products
+     * @access public
+     */
     public static getOne = asyncHandler(
         async (
             req: Request<{ productId: string }>,
