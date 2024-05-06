@@ -1,6 +1,7 @@
 import { Request, Response, NextFunction } from "express";
 import { asyncHandler, notImplementedHandler } from "../../util";
 import { ProductsService } from "../services";
+import productsRouter from "../routes/v1/products.rout";
 
 class ProductsController {
     private constructor() {}
@@ -20,8 +21,22 @@ class ProductsController {
     );
 
     public static updateOne = asyncHandler(
-        async (req: Request, res: Response, next: NextFunction) => {
-            notImplementedHandler(req, res);
+        async (
+            req: Request<{ productId: string }>,
+            res: Response,
+            next: NextFunction
+        ) => {
+            const { productId } = req.params;
+            const updatedProduct = await ProductsService.updateProduct(
+                productId,
+                req.body,
+                req.files as Express.Multer.File[]
+            );
+
+            res.status(200).json({
+                message: "Product updated successfully",
+                product: updatedProduct,
+            });
         }
     );
 
