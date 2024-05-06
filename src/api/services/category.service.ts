@@ -75,6 +75,40 @@ class CategoriesService {
 
         return categories;
     }
+
+    public static async getOne(categoryId: string) {
+        const category =
+            await DatabaseManager.getInstance().category.findUnique({
+                where: {
+                    id: categoryId,
+                },
+                select: {
+                    id: true,
+                    name: true,
+                    Product: {
+                        select: {
+                            id: true,
+                            name: true,
+                            price: true,
+                            description: true,
+                            countInStock: true,
+                            images: true,
+                            // TODO
+                            /*
+                                aggregate over ratings for each product 
+                                and return average rating and number of ratings 
+                            */
+                        },
+                    },
+                },
+            });
+
+        if (!category) {
+            throw new AppError("Category not found", 404);
+        }
+
+        return category;
+    }
 }
 
 export default CategoriesService;
