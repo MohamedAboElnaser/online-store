@@ -52,7 +52,7 @@ model Product {
   description  String
   price        Float
   countInStock Int         @map("count_in_stock")
-  category     Category    @relation(fields: [categoryId], references: [id])
+  category     Category    @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   categoryId   String      @map("category_id")
   createdAt    DateTime    @default(now())
   updatedAt    DateTime?   @updatedAt
