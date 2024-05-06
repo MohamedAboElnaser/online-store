@@ -29,7 +29,11 @@ const createProductSchema: TEndpointSchema[] = [
                     buffer: joi.binary().required(),
                 })
             )
+            .min(1)
             .required()
+            .messages({
+                "array.min": "At least one image file is required",
+            })
             .prefs({ abortEarly: false, stripUnknown: true }),
     },
 ];
