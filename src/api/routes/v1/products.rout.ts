@@ -18,7 +18,13 @@ productsRouter
 productsRouter
     .route("/:productId")
     .get(ProductsController.getOne) //TODO - Add rate limiting middleware to this route
-    .patch(ProductsController.updateOne)
+    .patch(
+        AuthHandler.authenticate,
+        AuthHandler.authorize("ADMIN"),
+        MulterService.multipleFiles("images"),
+        validator(productsSchemas),
+        ProductsController.updateOne
+    )
     .delete(ProductsController.deleteOne);
 
 export default productsRouter;
