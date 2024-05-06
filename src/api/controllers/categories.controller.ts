@@ -6,6 +6,7 @@ class CategoriesController {
     private constructor() {}
     /**
      * @access private - only accessible to Admin users
+     * @route POST /api/v1/categories
      */
     public static createCategory = asyncHandler(
         async (req: Request, res: Response, next: NextFunction) => {
@@ -17,7 +18,10 @@ class CategoriesController {
             });
         }
     );
-
+    /**
+     * @access private - only accessible to Admin users
+     * @route PATCH /api/v1/categories/:categoryId
+     */
     public static updateCategory = asyncHandler(
         async (
             req: Request<{ categoryId: string }>,
@@ -35,7 +39,10 @@ class CategoriesController {
             });
         }
     );
-
+    /**
+     * @access private - only accessible to Admin users
+     * @route DELETE /api/v1/categories
+     */
     public static deleteCategories = asyncHandler(
         async (
             req: Request<any, any, { ids: string[] }>,
@@ -50,6 +57,10 @@ class CategoriesController {
         }
     );
 
+    /**
+     * @route GET /api/v1/categories
+     * @access public
+     */
     public static fetchCategories = asyncHandler(
         async (req: Request, res: Response, next: NextFunction) => {
             const categories = await CategoriesService.getCategories();
@@ -62,6 +73,10 @@ class CategoriesController {
         }
     );
 
+    /**
+     * @route GET /api/v1/categories/:categoryId
+     * @access public
+     */
     public static fetchCategory = asyncHandler(
         async (req: Request, res: Response, next: NextFunction) => {
             const category = await CategoriesService.getOne(
