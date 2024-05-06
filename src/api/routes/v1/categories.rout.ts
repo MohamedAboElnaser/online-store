@@ -27,7 +27,8 @@ categoriesRouter
         AuthHandler.authorize("ADMIN"),
         validator(categoriesSchemas),
         CategoriesController.updateCategory
-    );
+    )
+    .get(CategoriesController.fetchCategory);
 
 //TODO - Add rate limiting middleware
 categoriesRouter.route("/").get(CategoriesController.fetchCategories);

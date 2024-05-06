@@ -61,6 +61,19 @@ class CategoriesController {
             });
         }
     );
+
+    public static fetchCategory = asyncHandler(
+        async (req: Request, res: Response, next: NextFunction) => {
+            const category = await CategoriesService.getOne(
+                req.params.categoryId
+            );
+            res.status(200).json({
+                status: "success",
+                message: "Category fetched successfully",
+                data: category,
+            });
+        }
+    );
 }
 
 export default CategoriesController;
