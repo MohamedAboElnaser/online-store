@@ -38,8 +38,41 @@ const createProductSchema: TEndpointSchema[] = [
     },
 ];
 
+const patchProductSchema: TEndpointSchema[] = [
+    {
+        method: "PATCH",
+        target: "body",
+        schema: joi
+            .object({
+                name: joi.string().min(3).optional(),
+                description: joi.string().min(3).optional(),
+                price: joi.number().optional(),
+                countInStock: joi.number().optional(),
+                categoryId: joi.string().guid({ version: "uuidv4" }).optional(),
+            })
+            .prefs({ abortEarly: false, stripUnknown: true }),
+    },
+    {
+        method: "PATCH",
+        target: "files",
+        schema: joi
+            .array()
+            .items(
+                joi.object({
+                    fieldname: joi.string().required(),
+                    originalname: joi.string().required(),
+                    encoding: joi.string().required(),
+                    mimetype: joi.string().required(),
+                    buffer: joi.binary().required(),
+                })
+            )
+            .optional()
+            .prefs({ abortEarly: false, stripUnknown: true }),
+    },
+];
 const endpoints: TValidationSchema = {
     "/": createProductSchema,
+    "/:id": patchProductSchema,
 };
 
 export default endpoints;
