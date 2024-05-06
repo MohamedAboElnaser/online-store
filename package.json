@@ -21,6 +21,7 @@
         "@types/node": "^20.12.5",
         "@types/nodemailer": "^6.4.14",
         "@types/passport-jwt": "^4.0.1",
+        "@types/uuid": "^9.0.8",
         "nodemon": "^3.1.0",
         "prisma": "^5.12.1",
         "ts-node": "^10.9.2",
@@ -39,6 +40,10 @@
         "multer": "^1.4.5-lts.1",
         "nodemailer": "^6.9.13",
         "passport": "^0.7.0",
-        "passport-jwt": "^4.0.1"
+        "passport-jwt": "^4.0.1",
+        "uuid": "^9.0.1"
+    },
+    "prisma": {
+        "seed": "ts-node prisma/seed.ts"
     }
 }
