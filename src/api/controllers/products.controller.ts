@@ -1,7 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 import { asyncHandler, notImplementedHandler } from "../../util";
 import { ProductsService } from "../services";
-import productsRouter from "../routes/v1/products.rout";
 
 class ProductsController {
     private constructor() {}
@@ -40,9 +39,13 @@ class ProductsController {
         }
     );
 
-    public static deleteOne = asyncHandler(
+    public static deleteProducts = asyncHandler(
         async (req: Request, res: Response, next: NextFunction) => {
-            notImplementedHandler(req, res);
+            await ProductsService.deleteMany(req.body.ids);
+            res.status(204).json({
+                status: "success",
+                message: "Products deleted successfully",
+            });
         }
     );
 
