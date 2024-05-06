@@ -36,6 +36,18 @@ const createProductSchema: TEndpointSchema[] = [
             })
             .prefs({ abortEarly: false, stripUnknown: true }),
     },
+    {
+        method: "DELETE",
+        target: "body",
+        schema: joi
+            .object({
+                ids: joi
+                    .array()
+                    .items(joi.string().guid({ version: "uuidv4" }))
+                    .required(),
+            })
+            .prefs({ abortEarly: false, stripUnknown: true }),
+    },
 ];
 
 const patchProductSchema: TEndpointSchema[] = [
@@ -70,6 +82,7 @@ const patchProductSchema: TEndpointSchema[] = [
             .prefs({ abortEarly: false, stripUnknown: true }),
     },
 ];
+
 const endpoints: TValidationSchema = {
     "/": createProductSchema,
     "/:id": patchProductSchema,
