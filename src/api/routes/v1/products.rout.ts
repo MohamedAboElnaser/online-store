@@ -13,6 +13,12 @@ productsRouter
         MulterService.multipleFiles("images", 4),
         validator(productsSchemas),
         ProductsController.createOne
+    )
+    .delete(
+        AuthHandler.authenticate,
+        AuthHandler.authorize("ADMIN"),
+        validator(productsSchemas),
+        ProductsController.deleteProducts
     );
 
 productsRouter
@@ -24,8 +30,7 @@ productsRouter
         MulterService.multipleFiles("images"),
         validator(productsSchemas),
         ProductsController.updateOne
-    )
-    .delete(ProductsController.deleteOne);
+    );
 
 export default productsRouter;
 export { productsRouter };
