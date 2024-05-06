@@ -145,6 +145,23 @@ class ProductsService {
             );
         }
     }
+
+    public static async deleteMany(ids: string[]) {
+        try {
+            await DatabaseManager.getInstance().product.deleteMany({
+                where: {
+                    id: {
+                        in: ids,
+                    },
+                },
+            });
+        } catch (err) {
+            throw new AppError(
+                "Error happened while deleting the products",
+                500
+            );
+        }
+    }
 }
 
 export default ProductsService;
