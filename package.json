@@ -4,8 +4,9 @@
     "description": "",
     "main": "src/server.ts",
     "scripts": {
-        "start": "ts-node src/server.ts",
-        "dev": "nodemon "
+        "start": "yarn run seed && ts-node src/server.ts",
+        "dev": "nodemon",
+        "seed": "prisma db seed"
     },
     "keywords": [],
     "repository": "https://github.com/MohamedAboElnaser/online-store.git",
