@@ -19,7 +19,8 @@ productsRouter
         AuthHandler.authorize("ADMIN"),
         validator(productsSchemas),
         ProductsController.deleteProducts
-    );
+    ) //TODO - Add rate limiting middleware to this route as it is public and can be abused
+    .get(validator(productsSchemas), ProductsController.getAll);
 
 productsRouter
     .route("/:productId")

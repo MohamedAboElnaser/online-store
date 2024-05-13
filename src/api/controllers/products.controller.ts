@@ -81,6 +81,35 @@ class ProductsController {
             });
         }
     );
+
+    public static getAll = asyncHandler(
+        async (
+            req: Request<
+                any,
+                any,
+                any,
+                {
+                    name?: string;
+                    price_min?: number;
+                    price_max?: number;
+                    page?: number;
+                    limit?: number;
+                }
+            >,
+            res: Response
+        ) => {
+            const products = (await ProductsService.fetchProducts(
+                req.query
+            )) as any[];
+            const totalCount = await ProductsService.countProducts();
+            res.status(200).json({
+                message: "products fetched successfully",
+                totalCount,
+                dataLength: products.length,
+                data: products,
+            });
+        }
+    );
 }
 
 export { ProductsController };
