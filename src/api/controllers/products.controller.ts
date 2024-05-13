@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { asyncHandler, notImplementedHandler } from "../../util";
+import { asyncHandler, notImplementedHandler } from "../../utils";
 import { ProductsService } from "../services";
 
 class ProductsController {

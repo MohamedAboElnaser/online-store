@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { AppError } from "../../util";
+import { AppError } from "../../utils";
 
 const developmentError = (err: AppError, req: Request, res: Response) => {
     return res.status(err.statusCode).json({

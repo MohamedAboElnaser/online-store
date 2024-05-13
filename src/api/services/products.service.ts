@@ -1,6 +1,6 @@
 import { DatabaseManager } from "../../../config";
 import { IProduct } from "product";
-import { AppError, CloudStorageService } from "../../util";
+import { AppError, CloudStorageService } from "../../utils";
 
 class ProductsService {
     private constructor() {}

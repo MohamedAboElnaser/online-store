@@ -3,7 +3,7 @@
  */
 
 import { Request, Response, NextFunction } from "express";
-import { AppError, asyncHandler } from "../../util";
+import { AppError, asyncHandler } from "../../utils";
 import { TValidationSchema } from "validationSchema";
 
 function normalizeURLPath(path: string): string {

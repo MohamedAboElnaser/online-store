@@ -1,6 +1,6 @@
 import passport from "passport";
 import { Request, Response, NextFunction } from "express";
-import { AppError } from "../../util";
+import { AppError } from "../../utils";
 
 class AuthHandler {
     private constructor() {}
@@ -33,7 +33,7 @@ class AuthHandler {
         return (req: Request, res: Response, next: NextFunction) => {
             //BUG
             // @ts-ignore
-            if (!roles.includes((req.user.role) as string)) {
+            if (!roles.includes(req.user.role as string)) {
                 return next(
                     new AppError(
                         "You do not have permission to perform this action",
@@ -45,6 +45,5 @@ class AuthHandler {
         };
     };
 }
-
 
 export default AuthHandler;

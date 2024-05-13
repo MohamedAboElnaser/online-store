@@ -1,4 +1,4 @@
-import { AppError } from "../../util";
+import { AppError } from "../../utils";
 import { DatabaseManager } from "../../../config";
 import { ICategory } from "category";
 

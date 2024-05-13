@@ -1,7 +1,7 @@
 import { Strategy } from "passport-jwt";
 import { ExtractJwt } from "passport-jwt";
 import { DatabaseManager } from "./db";
-import { AppError } from "../src/util";
+import { AppError } from "../src/utils";
 import { Request } from "express";
 
 //cookie extractor
