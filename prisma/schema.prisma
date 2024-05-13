@@ -16,18 +16,18 @@ datasource db {
 }
 
 model User {
-  id         String      @id @default(uuid())
+  id         String     @id @default(uuid())
   firstName  String
   lastName   String?
-  email      String      @unique
+  email      String     @unique
   password   String
-  role       Role        @default(CUSTOMER)
-  createdAt  DateTime    @default(now())
-  updatedAt  DateTime?   @updatedAt
-  isVerified Boolean     @default(false)
+  role       Role       @default(CUSTOMER)
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime?  @updatedAt
+  isVerified Boolean    @default(false)
   Reviews    Reviews[]
   Orders     Order[]
-  whishlist  whishlist[]
+  wishList   WishList[]
   Cart       Cart[]
   otps       otps[]
 
@@ -59,7 +59,7 @@ model Product {
   images       String[]
   Reviews      Reviews[]
   OrderItem    OrderItem[]
-  whishlist    whishlist[]
+  whishlist    WishList[]
   CartItem     CartItem[]
 
   @@map("products")
@@ -70,9 +70,9 @@ model Reviews {
   id        String    @id @default(uuid())
   rating    Int
   comment   String?
-  user      User      @relation(fields: [userId], references: [id])
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId    String    @map("user_id")
-  product   Product   @relation(fields: [productId], references: [id])
+  product   Product   @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   productId String    @map("product_id")
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
@@ -110,14 +110,13 @@ model OrderItem {
   @@schema("order")
 }
 
-model whishlist {
-  id         String    @id @default(uuid())
-  user       User      @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  customerId String    @map("customer_id")
-  product    Product   @relation(fields: [productId], references: [id])
-  productId  String    @map("product_id")
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime? @updatedAt
+model WishList {
+  id         String   @id @default(uuid())
+  user       User     @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  customerId String   @map("customer_id")
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  productId  String   @map("product_id")
+  createdAt  DateTime @default(now())
 
   @@map("whishlists")
   @@schema("user")
