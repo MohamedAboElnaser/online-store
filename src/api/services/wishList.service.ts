@@ -66,6 +66,20 @@ class WishListService {
             throw new AppError("error while fetching wishlist");
         }
     }
+
+    public static async removeWishListItems(ids: string[]) {
+        try {
+            await DatabaseManager.getInstance().wishList.deleteMany({
+                where: {
+                    id: {
+                        in: ids,
+                    },
+                },
+            });
+        } catch (err) {
+            throw new AppError("error while removing items from wishlist");
+        }
+    }
 }
 
 export default WishListService;

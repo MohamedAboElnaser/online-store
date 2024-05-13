@@ -45,7 +45,11 @@ class WishListController {
 
     public static removeFromWishList = asyncHandler(
         async (req: Request, res: Response, next: NextFunction) => {
-            notImplementedHandler(req, res);
+            await WishListService.removeWishListItems(req.body.ids);
+
+            res.status(204).json({
+                message: "Items removed from wishlist successfully",
+            });
         }
     );
 }
