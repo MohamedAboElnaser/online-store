@@ -27,8 +27,10 @@ app.use(express.json());
 app.use(cookieParser());
 app.use(passport.initialize());
 
-DatabaseManager.getInstance();
-console.log(`connected to ${DatabaseManager.getDatabaseName()} DB 🛢️`);
+(async () => {
+    await DatabaseManager.getInstance().$connect();
+    console.log(`connected to ${DatabaseManager.getDatabaseName()} DB 🛢️`);
+})();
 
 if (!(process.env.NODE_ENV === "production")) app.use(morgan("dev"));
 

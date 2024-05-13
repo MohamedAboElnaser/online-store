@@ -1,7 +1,7 @@
 import * as joi from "joi";
 import { TEndpointSchema, TValidationSchema } from "validationSchema";
 
-const createProductSchema: TEndpointSchema[] = [
+const slashSchemas: TEndpointSchema[] = [
     {
         method: "POST",
         target: "body",
@@ -48,6 +48,40 @@ const createProductSchema: TEndpointSchema[] = [
             })
             .prefs({ abortEarly: false, stripUnknown: true }),
     },
+    {
+        method: "GET",
+        target: "query",
+        schema: joi
+            .object({
+                page: joi.number().min(1).optional(),
+                limit: joi.number().min(1).optional(),
+                price_min: joi.number().min(1).optional(),
+                price_max: joi.number().optional(),
+            })
+            .custom((value, helpers) => {
+                if (value.page && !value.limit) {
+                    return helpers.error("limit.page");
+                }
+                if (value.limit && !value.page) {
+                    return helpers.error("limit.page");
+                }
+                if (
+                    value.price_min &&
+                    value.price_max &&
+                    value.price_min > value.price_max
+                ) {
+                    return helpers.error("price_min.price_max");
+                }
+                return value;
+            })
+            .messages({
+                "limit.page":
+                    "limit and page are both required ",
+                "price_min.price_max":
+                    "price_min should be less than price_max",
+            })
+            .prefs({ abortEarly: false, allowUnknown: true }),
+    },
 ];
 
 const patchProductSchema: TEndpointSchema[] = [
@@ -84,7 +118,7 @@ const patchProductSchema: TEndpointSchema[] = [
 ];
 
 const endpoints: TValidationSchema = {
-    "/": createProductSchema,
+    "/": slashSchemas,
     "/:id": patchProductSchema,
 };
 
