@@ -162,6 +162,47 @@ class ProductsService {
             );
         }
     }
+
+    public static async fetchProducts(opts: {
+        name?: string;
+        price_min?: number;
+        price_max?: number;
+        page?: number;
+        limit?: number;
+    }) {
+        let query = `SELECT id, name, price, description, images FROM product.products WHERE 1=1`;
+
+        if (opts.name) {
+            query += ` AND name ILIKE '%${opts.name}%'`;
+        }
+
+        if (opts.price_min) {
+            query += ` AND price >= ${opts.price_min}`;
+        }
+
+        if (opts.price_max) {
+            query += ` AND price <= ${opts.price_max}`;
+        }
+
+        query += ` ORDER BY price ASC`;
+
+        if (opts.page && opts.limit) {
+            const offset = opts.limit * (opts.page - 1);
+            query += ` LIMIT ${opts.limit} OFFSET ${offset}`;
+        } else {
+            query += ` LIMIT 20`;
+        }
+        console.log("Generated query", query);
+        const products = await DatabaseManager.getInstance().$queryRawUnsafe(
+            `${query}`
+        );
+        //TODO - add rating filter
+        return products;
+    }
+
+    public static async countProducts() {
+        return await DatabaseManager.getInstance().product.count();
+    }
 }
 
 export default ProductsService;
