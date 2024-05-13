@@ -118,6 +118,7 @@ model WishList {
   productId  String   @map("product_id")
   createdAt  DateTime @default(now())
 
+  @@unique([customerId, productId])
   @@map("whishlists")
   @@schema("user")
 }
