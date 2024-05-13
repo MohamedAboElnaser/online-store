@@ -12,7 +12,12 @@ wishListRouter
         AuthHandler.authorize("CUSTOMER"),
         validator(wishlistSchemas),
         WishListController.AddToWishList
+    )
+    .get(
+        AuthHandler.authenticate,
+        AuthHandler.authorize("CUSTOMER"),
+        WishListController.fetchWishList
     );
 
 export default wishListRouter;
-export { wishListRouter}
+export { wishListRouter };

@@ -27,14 +27,43 @@ class WishListService {
         } catch (err) {
             if (err instanceof PrismaClientKnownRequestError) {
                 if (err.code === "P2002") {
-                    throw new AppError("Product already in wishlist",400);
+                    throw new AppError("Product already in wishlist", 400);
                 } else if (err.code === "P2003") {
-                    throw new AppError( `No such product with the given id ${productId}`,404);
+                    throw new AppError(
+                        `No such product with the given id ${productId}`,
+                        404
+                    );
                 } else {
                     throw new AppError("error while adding to wishlist");
                 }
             }
             throw new AppError("error while adding to wishlist");
+        }
+    }
+
+    public static async fetchWishList(customerId: string) {
+        try {
+            const wishListItems =
+                await DatabaseManager.getInstance().wishList.findMany({
+                    where: {
+                        customerId,
+                    },
+                    select: {
+                        id: true,
+                        product: {
+                            select: {
+                                id: true,
+                                name: true,
+                                price: true,
+                                description: true,
+                                images: true,
+                            },
+                        },
+                    },
+                });
+            return wishListItems;
+        } catch (err) {
+            throw new AppError("error while fetching wishlist");
         }
     }
 }

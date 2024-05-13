@@ -30,7 +30,16 @@ class WishListController {
 
     public static fetchWishList = asyncHandler(
         async (req: Request, res: Response, next: NextFunction) => {
-            notImplementedHandler(req, res);
+            // @ts-ignore
+            const { id: customerId } = req.user;
+
+            const wishListItems = await WishListService.fetchWishList(
+                customerId
+            );
+            res.status(200).json({
+                message: "Wishlist Items fetched successfully",
+                data: wishListItems,
+            });
         }
     );
 
