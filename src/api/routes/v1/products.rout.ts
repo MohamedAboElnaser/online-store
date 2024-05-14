@@ -17,6 +17,7 @@ productsRouter
     .delete(
         AuthHandler.authenticate,
         AuthHandler.authorize("ADMIN"),
+        MulterService.getNoneMethod(),
         validator(productsSchemas),
         ProductsController.deleteProducts
     ) //TODO - Add rate limiting middleware to this route as it is public and can be abused
