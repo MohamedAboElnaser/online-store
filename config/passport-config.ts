@@ -40,6 +40,15 @@ const jwtStrategy = new Strategy(
                 where: {
                     id: JWT_payload.id,
                 },
+                select: {
+                    id: true,
+                    role: true,
+                    Cart: {
+                        select: {
+                            id: true,
+                        },
+                    },
+                },
             })
             .then((user) => {
                 if (user) {
