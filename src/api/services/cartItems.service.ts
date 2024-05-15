@@ -7,7 +7,6 @@ class CartItemsService {
 
     public static async addItemToCart(
         cartId: string,
-        customerId: string,
         productId: string,
         quantity: number = 1
     ): Promise<ICartItem> {

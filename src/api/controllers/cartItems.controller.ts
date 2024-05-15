@@ -13,13 +13,11 @@ class CartItemsController {
         ) => {
             // console.log('req.user.Cart', (req.user as IUser).Cart[0]);
             const {
-                id: customerId,
                 Cart: [{ id: cartId }],
             } = req.user as IUser;
             const { productId, quantity } = req.body;
             const cartItem = await CartItemsService.addItemToCart(
                 cartId,
-                customerId,
                 productId,
                 quantity
             );
