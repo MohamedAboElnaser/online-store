@@ -1,5 +1,13 @@
 import { Router } from "express";
+import { CartItemsController } from "../../controllers";
 
 const CartItemsRouter = Router();
 
-export  {CartItemsRouter};
+CartItemsRouter.route("/")
+    .post(CartItemsController.addItem)
+    .get(CartItemsController.fetchItems)
+    .delete(CartItemsController.deleteItems);
+
+CartItemsRouter.route("/:id").patch(CartItemsController.updateItem);
+
+export { CartItemsRouter };
