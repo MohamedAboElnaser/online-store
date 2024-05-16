@@ -25,10 +25,20 @@ const cartItemsEndpoints: TEndpointSchema[] = [
             })
             .prefs({ abortEarly: false, stripUnknown: true }),
     },
+    {
+        method: "PATCH",
+        target: "body",
+        schema: joi
+            .object({
+                quantity: joi.number().required(),
+            })
+            .prefs({ abortEarly: false, stripUnknown: true }),
+    },
 ];
 
 const endpoints: TValidationSchema = {
     "/": cartItemsEndpoints,
+    "/:id": cartItemsEndpoints,
 };
 
 export default endpoints;
