@@ -118,6 +118,31 @@ class CartItemsService {
             );
         }
     }
+
+    public static async fetchCartItems(cartId: string) {
+        const cartItems = await DatabaseManager.getInstance().cartItem.findMany(
+            {
+                where: {
+                    cartId,
+                },
+                select: {
+                    id: true,
+                    quantity: true,
+                    product: {
+                        select: {
+                            id: true,
+                            name: true,
+                            description: true,
+                            price: true,
+                            images: true,
+                        },
+                    },
+                },
+            }
+        );
+
+        return cartItems;
+    }
 }
 
 export default CartItemsService;

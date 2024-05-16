@@ -13,7 +13,11 @@ CartItemsRouter.route("/")
         validator(cartItemsSchemas),
         CartItemsController.addItem
     )
-    .get(CartItemsController.fetchItems)
+    .get(
+        AuthHandler.authenticate,
+        AuthHandler.authorize("CUSTOMER"),
+        CartItemsController.fetchItems
+    )
     .delete(
         AuthHandler.authenticate,
         AuthHandler.authorize("CUSTOMER"),

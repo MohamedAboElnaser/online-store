@@ -57,7 +57,18 @@ class CartItemsController {
 
     public static fetchItems = asyncHandler(
         async (req: Request, res: Response, next: NextFunction) => {
-            notImplementedHandler(req, res);
+            const {
+                Cart: [{ id: cartId }],
+            } = req.user as IUser;
+            const cartItems = await CartItemsService.fetchCartItems(cartId);
+            res.status(200).json({
+                status: "success",
+                message: "Cart items fetched successfully",
+                length: cartItems.length,
+                data: {
+                    cartItems,
+                },
+            });
         }
     );
 
