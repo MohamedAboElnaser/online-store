@@ -12,6 +12,19 @@ const cartItemsEndpoints: TEndpointSchema[] = [
             })
             .prefs({ abortEarly: false, stripUnknown: true }),
     },
+    {
+        method: "DELETE",
+        target: "body",
+        schema: joi
+            .object({
+                ids: joi
+                    .array()
+                    .items(joi.string().guid({ version: "uuidv4" }))
+                    .min(1)
+                    .required(),
+            })
+            .prefs({ abortEarly: false, stripUnknown: true }),
+    },
 ];
 
 const endpoints: TValidationSchema = {
