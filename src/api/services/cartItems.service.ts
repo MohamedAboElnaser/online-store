@@ -68,6 +68,22 @@ class CartItemsService {
 
         return cartItem as ICartItem;
     }
+
+    public static async removeItemsFromCart(
+        cartId: string,
+        ids: string[]
+    ): Promise<void> {
+        const data = await DatabaseManager.getInstance().cartItem.deleteMany({
+            where: {
+                cartId,
+                id: {
+                    in: ids,
+                },
+            },
+        });
+        if (data.count === 0)
+            throw new AppError("No items found in the cart to remove", 404);
+    }
 }
 
 export default CartItemsService;

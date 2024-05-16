@@ -45,8 +45,23 @@ class CartItemsController {
     );
 
     public static deleteItems = asyncHandler(
-        async (req: Request, res: Response, next: NextFunction) => {
-            notImplementedHandler(req, res);
+        async (
+            req: Request<any, any, { ids: string[] }>,
+            res: Response,
+            next: NextFunction
+        ) => {
+            const { ids } = req.body;
+            const {
+                Cart: [{ id: cartId }],
+            } = req.user as IUser;
+            await CartItemsService.removeItemsFromCart(cartId, ids);
+
+            res.status(204).json({
+                status: "success",
+                message: "Items removed from cart",
+            });
+
+            // notImplementedHandler(req, res);
         }
     );
 }

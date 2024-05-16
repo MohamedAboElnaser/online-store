@@ -14,7 +14,13 @@ CartItemsRouter.route("/")
         CartItemsController.addItem
     )
     .get(CartItemsController.fetchItems)
-    .delete(CartItemsController.deleteItems);
+    .delete(
+        AuthHandler.authenticate,
+        AuthHandler.authorize("CUSTOMER"),
+        MulterService.getNoneMethod(),
+        validator(cartItemsSchemas),
+        CartItemsController.deleteItems
+    );
 
 CartItemsRouter.route("/:id").patch(CartItemsController.updateItem);
 
