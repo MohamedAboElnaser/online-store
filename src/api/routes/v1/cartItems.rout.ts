@@ -22,6 +22,12 @@ CartItemsRouter.route("/")
         CartItemsController.deleteItems
     );
 
-CartItemsRouter.route("/:id").patch(CartItemsController.updateItem);
+CartItemsRouter.route("/:id").patch(
+    AuthHandler.authenticate,
+    AuthHandler.authorize("CUSTOMER"),
+    MulterService.getNoneMethod(),
+    validator(cartItemsSchemas),
+    CartItemsController.updateItem
+);
 
 export { CartItemsRouter };

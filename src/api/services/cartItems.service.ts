@@ -84,6 +84,40 @@ class CartItemsService {
         if (data.count === 0)
             throw new AppError("No items found in the cart to remove", 404);
     }
+
+    public static async updateItemInCart(cartItemId: string, quantity: number) {
+        try {
+            const cartItem =
+                await DatabaseManager.getInstance().cartItem.update({
+                    where: {
+                        id: cartItemId,
+                    },
+                    data: {
+                        quantity,
+                    },
+                    select: {
+                        id: true,
+                        quantity: true,
+                        product: {
+                            select: {
+                                id: true,
+                                name: true,
+                                description: true,
+                                price: true,
+                                images: true,
+                            },
+                        },
+                    },
+                });
+
+            return cartItem as ICartItem;
+        } catch (err) {
+            throw new AppError(
+                `No Item found in Cart with id: ${cartItemId}`,
+                404
+            );
+        }
+    }
 }
 
 export default CartItemsService;

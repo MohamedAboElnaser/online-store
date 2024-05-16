@@ -33,8 +33,25 @@ class CartItemsController {
     );
 
     public static updateItem = asyncHandler(
-        async (req: Request, res: Response, next: NextFunction) => {
-            notImplementedHandler(req, res);
+        async (
+            req: Request<{ id: string }, any, { quantity: number }>,
+            res: Response,
+            next: NextFunction
+        ) => {
+            const { id: cartItemId } = req.params;
+            const { quantity } = req.body;
+            const updatedItem = await CartItemsService.updateItemInCart(
+                cartItemId,
+                quantity
+            );
+
+            res.status(200).json({
+                status: "success",
+                message: "Item updated in cart",
+                data: {
+                    updatedItem,
+                },
+            });
         }
     );
 
