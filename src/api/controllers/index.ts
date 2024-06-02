@@ -3,6 +3,7 @@ import CategoriesController from "./categories.controller";
 import ProductsController from "./products.controller";
 import WishListController from "./wishList.controller";
 import CartItemsController from "./cartItems.controller";
+import OrdersController from "./orders.controller";
 
 export {
     AuthController,
@@ -10,4 +11,5 @@ export {
     ProductsController,
     WishListController,
     CartItemsController,
+    OrdersController,
 };
