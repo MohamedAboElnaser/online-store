@@ -58,9 +58,9 @@ model Product {
   updatedAt    DateTime?   @updatedAt
   images       String[]
   Reviews      Reviews[]
-  OrderItem    OrderItem[]
+  OrderItems    OrderItem[]
   whishlist    WishList[]
-  CartItem     CartItem[]
+  CartItems     CartItem[]
 
   @@map("products")
   @@schema("product")
@@ -89,7 +89,7 @@ model Order {
   orderStatus OrderStatus @default(PENDING)
   createdAt   DateTime    @default(now())
   updatedAt   DateTime?   @updatedAt
-  OrderItem   OrderItem[]
+  OrderItems   OrderItem[]
 
   @@map("orders")
   @@schema("order")
@@ -127,7 +127,7 @@ model Cart {
   id         String     @id @default(uuid())
   user       User       @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   customerId String     @map("customer_id")
-  CartItem   CartItem[]
+  CartItems   CartItem[]
 
   @@map("carts")
   @@schema("cart")
