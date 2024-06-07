@@ -86,37 +86,63 @@ class CartItemsService {
     }
 
     public static async updateItemInCart(cartItemId: string, quantity: number) {
-        try {
-            const cartItem =
-                await DatabaseManager.getInstance().cartItem.update({
-                    where: {
-                        id: cartItemId,
-                    },
-                    data: {
-                        quantity,
-                    },
-                    select: {
-                        id: true,
-                        quantity: true,
-                        product: {
-                            select: {
-                                id: true,
-                                name: true,
-                                description: true,
-                                price: true,
-                                images: true,
-                            },
+        /**
+         * First check if the item is in the cart
+         * Second validate that the quantity is available in the stock
+         * Third update the quantity of the item in the cart
+         */
+
+        const cartItemRecord =
+            await DatabaseManager.getInstance().cartItem.findUnique({
+                where: {
+                    id: cartItemId,
+                },
+                select: {
+                    product: {
+                        select: {
+                            countInStock: true,
                         },
                     },
-                });
+                },
+            });
 
-            return cartItem as ICartItem;
-        } catch (err) {
+        if (!cartItemRecord) {
             throw new AppError(
                 `No Item found in Cart with id: ${cartItemId}`,
                 404
             );
         }
+        if (cartItemRecord.product.countInStock < quantity) {
+            throw new AppError(
+                `There is only ${cartItemRecord.product.countInStock} item in the stock`,
+                400
+            );
+        }
+
+        const updatedCartItemRecord =
+            await DatabaseManager.getInstance().cartItem.update({
+                where: {
+                    id: cartItemId,
+                },
+                data: {
+                    quantity,
+                },
+                select: {
+                    id: true,
+                    quantity: true,
+                    product: {
+                        select: {
+                            id: true,
+                            name: true,
+                            description: true,
+                            price: true,
+                            images: true,
+                        },
+                    },
+                },
+            });
+
+        return updatedCartItemRecord as ICartItem;
     }
 
     public static async fetchCartItems(cartId: string) {
