@@ -2,6 +2,7 @@ import { Router } from "express";
 import { OrdersController } from "../../controllers";
 import { validator, AuthHandler, MulterService } from "../../middlewares";
 import { orderSchemas } from "../../../validation/schemas";
+import orderItemsRouter from "./orderItems.rout";
 
 const ordersRouter = Router();
 
@@ -35,6 +36,8 @@ ordersRouter
         validator(orderSchemas),
         OrdersController.deleteOrder
     );
+
+ordersRouter.use("/:orderId/items/", orderItemsRouter);
 
 export default ordersRouter;
 export { ordersRouter };
