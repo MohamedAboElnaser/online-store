@@ -13,6 +13,12 @@ ordersRouter
         MulterService.getNoneMethod(),
         validator(orderSchemas),
         OrdersController.createOrder
+    )
+    .get(
+        AuthHandler.authenticate,
+        AuthHandler.authorize("CUSTOMER"),
+        validator(orderSchemas),
+        OrdersController.getOrders
     );
 
 export default ordersRouter;
