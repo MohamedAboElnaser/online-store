@@ -21,6 +21,16 @@ const orderItemsEndpoints: TEndpointSchema[] = [
             })
             .prefs({ abortEarly: false, stripUnknown: true }),
     },
+    {
+        method: "DELETE",
+        target: "params",
+        schema: joi
+            .object({
+                orderId: joi.string().guid({ version: "uuidv4" }).required(),
+                itemId: joi.string().guid({ version: "uuidv4" }).required(),
+            })
+            .prefs({ abortEarly: false, stripUnknown: true }),
+    },
 ];
 
 const endpoints: TValidationSchema = {
