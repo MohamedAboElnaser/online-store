@@ -8,6 +8,58 @@ class OrderItemsService {
         itemId: string,
         quantity: number
     ) {
+        // First fetch order item and validate orderStatus.
+        const orderItem = await OrderItemsService.validateOrderItem(
+            orderId,
+            itemId
+        );
+
+        // Check if the quantity is greater than the countInStock
+        if (quantity > orderItem.product.countInStock) {
+            throw new AppError(
+                `There are only ${orderItem.product.countInStock} items in stock, quantity must be less than or equal to ${orderItem.product.countInStock}`,
+                400
+            );
+        }
+
+        // Update the order item quantity
+        const updatedOrderItem =
+            await DatabaseManager.getInstance().orderItem.update({
+                where: {
+                    id: itemId,
+                    orderId,
+                },
+                data: {
+                    quantity,
+                },
+                select: {
+                    id: true,
+                    quantity: true,
+                    orderId: true,
+                },
+            });
+
+        return updatedOrderItem;
+    }
+
+    public static async deleteOrderItem(orderId: string, itemId: string) {
+        // First fetch order item and validate orderStatus.
+        await OrderItemsService.validateOrderItem(orderId, itemId);
+
+        // Delete the order item
+        await DatabaseManager.getInstance().orderItem.delete({
+            where: {
+                id: itemId,
+                orderId,
+            },
+        });
+
+        return {
+            message: "Order item deleted successfully",
+        };
+    }
+
+    public static async validateOrderItem(orderId: string, itemId: string) {
         // First fetch order item.
         const orderItem =
             await DatabaseManager.getInstance().orderItem.findUnique({
@@ -42,32 +94,8 @@ class OrderItemsService {
                 400
             );
         }
-        // Check if the quantity is greater than the countInStock
-        if (quantity > orderItem.product.countInStock) {
-            throw new AppError(
-                `There are only ${orderItem.product.countInStock} items in stock, quantity must be less than or equal to ${orderItem.product.countInStock}`,
-                400
-            );
-        }
 
-        // Update the order item quantity
-        const updatedOrderItem =
-            await DatabaseManager.getInstance().orderItem.update({
-                where: {
-                    id: itemId,
-                    orderId,
-                },
-                data: {
-                    quantity,
-                },
-                select: {
-                    id: true,
-                    quantity: true,
-                    orderId: true,
-                },
-            });
-
-        return updatedOrderItem;
+        return orderItem;
     }
 }
 
