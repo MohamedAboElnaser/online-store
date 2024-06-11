@@ -89,6 +89,43 @@ class OrderService {
         );
         return order;
     }
+
+    public static async getOrders(customerId: string, status?: string) {
+        const orders = await DatabaseManager.getInstance().order.findMany({
+            where: {
+                customerId,
+                orderStatus: status as any,
+            },
+            select: {
+                id: true,
+                orderStatus: true,
+                createdAt: true,
+                paidAt: true,
+                OrderItems: {
+                    select: {
+                        id: true,
+                        quantity: true,
+                        unitPrice: true,
+                        product: {
+                            select: {
+                                id: true,
+                                name: true,
+                                images: true,
+                            },
+                        },
+                    },
+                },
+            },
+        });
+        // Derive the total price of each order
+        orders.forEach((order) => {
+            (order as any).totalPrice = order.OrderItems.reduce(
+                (total, item) => total + item.quantity * item.unitPrice,
+                0
+            );
+        });
+        return orders;
+    }
 }
 
 export default OrderService;
