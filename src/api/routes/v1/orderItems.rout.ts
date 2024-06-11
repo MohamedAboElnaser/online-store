@@ -12,6 +12,12 @@ orderItemsRouter
         MulterService.getNoneMethod(),
         validator(orderItemSchemas),
         OrderItemsController.updateOrderItem
+    )
+    .delete(
+        AuthHandler.authenticate,
+        AuthHandler.authorize("CUSTOMER"),
+        validator(orderItemSchemas),
+        OrderItemsController.deleteOrderItem
     );
 
 export default orderItemsRouter;
