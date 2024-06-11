@@ -2,7 +2,7 @@ import * as joi from "joi";
 import { it } from "node:test";
 import { TEndpointSchema, TValidationSchema } from "validationSchema";
 
-const createOrderSchema: TEndpointSchema[] = [
+const ordersSchema: TEndpointSchema[] = [
     {
         method: "POST",
         target: "body",
@@ -16,10 +16,23 @@ const createOrderSchema: TEndpointSchema[] = [
             })
             .prefs({ abortEarly: false, stripUnknown: true }),
     },
+    {
+        method: "GET",
+        target: "query",
+        schema: joi
+            .object({
+                status: joi
+                    .string()
+                    .uppercase()
+                    .valid("PENDING", "COMPLETED")
+                    .optional(),
+            })
+            .prefs({ abortEarly: false, stripUnknown: true }),
+    },
 ];
 
 const endpoints: TValidationSchema = {
-    "/": createOrderSchema,
+    "/": ordersSchema,
 };
 
 export default endpoints;
