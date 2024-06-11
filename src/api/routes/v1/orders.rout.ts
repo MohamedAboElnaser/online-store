@@ -28,6 +28,12 @@ ordersRouter
         AuthHandler.authorize("CUSTOMER"),
         validator(orderSchemas),
         OrdersController.getOrder
+    )
+    .delete(
+        AuthHandler.authenticate,
+        AuthHandler.authorize("CUSTOMER"),
+        validator(orderSchemas),
+        OrdersController.deleteOrder
     );
 
 export default ordersRouter;

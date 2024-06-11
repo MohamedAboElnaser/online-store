@@ -165,6 +165,27 @@ class OrderService {
             throw new AppError("Order not found", 404);
         }
     }
+
+    public static async deleteOrder(
+        orderId: string,
+        customerId: string
+    ): Promise<void> {
+        const order = await DatabaseManager.getInstance().order.findFirst({
+            where: {
+                id: orderId,
+                customerId,
+            },
+            select: {
+                id: true,
+            },
+        });
+        if (!order) throw new AppError("Order not found", 404);
+        await DatabaseManager.getInstance().order.delete({
+            where: {
+                id: orderId,
+            },
+        });
+    }
 }
 
 export default OrderService;

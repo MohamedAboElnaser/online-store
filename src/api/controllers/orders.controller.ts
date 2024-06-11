@@ -67,6 +67,18 @@ class OrderController {
             });
         }
     );
+
+    public static deleteOrder = asyncHandler(
+        async (req: Request, res: Response, next: NextFunction) => {
+            const { id: customerId } = req.user as IUser;
+            await OrdersService.deleteOrder(req.params.id, customerId);
+            res.status(204).json({
+                status: "success",
+                message: "Order deleted successfully",
+                data: null,
+            });
+        }
+    );
 }
 
 export default OrderController;
