@@ -26,6 +26,29 @@ class OrderController {
             });
         }
     );
+
+    public static getOrders = asyncHandler(
+        async (
+            req: Request<any, any, any, { status: "PENDING" | "COMPLETED" }>,
+            res: Response,
+            next: NextFunction
+        ) => {
+            const { id: customerId } = req.user as IUser;
+            const orders = await OrdersService.getOrders(
+                customerId,
+                req.query.status as string
+            );
+
+            res.status(200).json({
+                status: "success",
+                message: "Orders fetched successfully",
+                data: {
+                    length: orders.length,
+                    orders,
+                },
+            });
+        }
+    );
 }
 
 export default OrderController;
