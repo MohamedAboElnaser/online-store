@@ -49,6 +49,24 @@ class OrderController {
             });
         }
     );
+
+    public static getOrder = asyncHandler(
+        async (req: Request, res: Response, next: NextFunction) => {
+            const { id: customerId } = req.user as IUser;
+            const order = await OrdersService.getOrder(
+                req.params.id,
+                customerId
+            );
+
+            res.status(200).json({
+                status: "success",
+                message: "Order fetched successfully",
+                data: {
+                    order,
+                },
+            });
+        }
+    );
 }
 
 export default OrderController;

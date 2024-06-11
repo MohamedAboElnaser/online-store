@@ -126,6 +126,45 @@ class OrderService {
         });
         return orders;
     }
+
+    public static async getOrder(orderId: string, customerId: string) {
+        try {
+            const order = await DatabaseManager.getInstance().order.findFirst({
+                where: {
+                    id: orderId,
+                    customerId,
+                },
+                select: {
+                    id: true,
+                    orderStatus: true,
+                    createdAt: true,
+                    paidAt: true,
+                    OrderItems: {
+                        select: {
+                            id: true,
+                            quantity: true,
+                            unitPrice: true,
+                            product: {
+                                select: {
+                                    id: true,
+                                    name: true,
+                                    images: true,
+                                },
+                            },
+                        },
+                    },
+                },
+            });
+            // Derive the total price of the order
+            (order as any).totalPrice = order.OrderItems.reduce(
+                (total, item) => total + item.quantity * item.unitPrice,
+                0
+            );
+            return order;
+        } catch (err) {
+            throw new AppError("Order not found", 404);
+        }
+    }
 }
 
 export default OrderService;

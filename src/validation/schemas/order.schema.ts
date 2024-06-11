@@ -1,5 +1,4 @@
 import * as joi from "joi";
-import { it } from "node:test";
 import { TEndpointSchema, TValidationSchema } from "validationSchema";
 
 const ordersSchema: TEndpointSchema[] = [

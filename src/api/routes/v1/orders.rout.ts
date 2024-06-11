@@ -21,5 +21,14 @@ ordersRouter
         OrdersController.getOrders
     );
 
+ordersRouter
+    .route("/:id")
+    .get(
+        AuthHandler.authenticate,
+        AuthHandler.authorize("CUSTOMER"),
+        validator(orderSchemas),
+        OrdersController.getOrder
+    );
+
 export default ordersRouter;
 export { ordersRouter };
