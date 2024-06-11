@@ -29,6 +29,21 @@ class OrderItemsController {
             });
         }
     );
+
+    public static deleteOrderItem = asyncHandler(
+        async (
+            req: Request<{ orderId: string; itemId: string }, any, any>,
+            res: Response,
+            next: NextFunction
+        ) => {
+            const { orderId, itemId } = req.params;
+            await OrderItemsService.deleteOrderItem(orderId, itemId);
+            res.status(204).json({
+                status: "success",
+                message: "Order item deleted successfully",
+            });
+        }
+    );
 }
 
 export default OrderItemsController;
