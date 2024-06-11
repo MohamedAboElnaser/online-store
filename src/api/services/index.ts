@@ -3,6 +3,7 @@ import CategoriesService from "./category.service";
 import ProductsService from "./products.service";
 import WishListService from "./wishList.service";
 import CartItemsService from "./cartItems.service";
+import OrdersService from "./orders.service";
 
 export {
     AuthService,
@@ -10,4 +11,5 @@ export {
     ProductsService,
     WishListService,
     CartItemsService,
+    OrdersService,
 };
