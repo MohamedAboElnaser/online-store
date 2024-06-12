@@ -13,8 +13,13 @@ class PaymentController {
                 req.user as IUser,
                 orderId
             );
-
-            notImplementedHandler(req, res);
+            res.status(200).json({
+                status: "success",
+                message: "Payment session created successfully",
+                data: {
+                    paymentUrl,
+                },
+            });
         }
     );
 }
