@@ -20,6 +20,7 @@ class PaymentService {
                 customerId: customer.id,
             },
             select: {
+                orderStatus: true,
                 OrderItems: {
                     select: {
                         id: true,
@@ -39,6 +40,13 @@ class PaymentService {
 
         if (!order) {
             throw new AppError(`No Order exist have id: ${orderId}`, 404);
+        }
+
+        if (order.orderStatus === "COMPLETED") {
+            throw new AppError(
+                `Order with id: ${orderId} is already completed`,
+                400
+            );
         }
         // Making sure that the required quantity of each orderItem is available in the store
         const isItemsAvailable = order.OrderItems.every((orderItem) => {
@@ -90,7 +98,10 @@ class PaymentService {
          *    by the customer so he can add a review to the product.
          * */
         // TODO Delete this query after implementing the webhook
-        // Mark that customer bought these order items so he can add reviews to them
+        /* 
+          Mark that customer bought these order items so he can add reviews to them
+          Update status of the order to COMPLETED
+        */
         const upsertPromises = order.OrderItems.map((item) =>
             DatabaseManager.getInstance().customerProduct.upsert({
                 where: {
@@ -107,6 +118,15 @@ class PaymentService {
             })
         );
         await Promise.all(upsertPromises);
+        await DatabaseManager.getInstance().order.update({
+            where: {
+                id: orderId,
+            },
+            data: {
+                orderStatus: "COMPLETED",
+                paidAt: new Date(),
+            },
+        });
 
         return session.url;
     }
