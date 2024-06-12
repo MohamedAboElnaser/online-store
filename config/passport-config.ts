@@ -43,6 +43,9 @@ const jwtStrategy = new Strategy(
                 select: {
                     id: true,
                     role: true,
+                    email: true,
+                    firstName: true,
+                    lastName: true,
                     Cart: {
                         select: {
                             id: true,
