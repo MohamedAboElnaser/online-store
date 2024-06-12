@@ -5,6 +5,9 @@ import wishlistSchemas from "./wishlist.schema";
 import cartItemsSchemas from "./cartItem.schema";
 import orderSchemas from "./order.schema";
 import orderItemSchemas from "./orderItems.schema";
+import paymentSchemas from "./payment.schema";
+
+
 export {
     authSchemas,
     categoriesSchemas,
@@ -12,5 +15,6 @@ export {
     wishlistSchemas,
     cartItemsSchemas,
     orderSchemas,
-    orderItemSchemas
+    orderItemSchemas,
+    paymentSchemas,
 };
