@@ -16,20 +16,21 @@ datasource db {
 }
 
 model User {
-  id         String     @id @default(uuid())
-  firstName  String
-  lastName   String?
-  email      String     @unique
-  password   String
-  role       Role       @default(CUSTOMER)
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime?  @updatedAt
-  isVerified Boolean    @default(false)
-  Reviews    Reviews[]
-  Orders     Order[]
-  wishList   WishList[]
-  Cart       Cart[]
-  otps       otps[]
+  id              String            @id @default(uuid())
+  firstName       String
+  lastName        String?
+  email           String            @unique
+  password        String
+  role            Role              @default(CUSTOMER)
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime?         @updatedAt
+  isVerified      Boolean           @default(false)
+  Reviews         Reviews[]
+  Orders          Order[]
+  wishList        WishList[]
+  Cart            Cart[]
+  otps            otps[]
+  customerProduct customerProduct[]
 
   @@map("users")
   @@schema("user")
@@ -47,20 +48,21 @@ model Category {
 }
 
 model Product {
-  id           String      @id @default(uuid())
-  name         String
-  description  String
-  price        Float
-  countInStock Int         @map("count_in_stock")
-  category     Category    @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  categoryId   String      @map("category_id")
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime?   @updatedAt
-  images       String[]
-  Reviews      Reviews[]
-  OrderItems    OrderItem[]
-  whishlist    WishList[]
-  CartItems     CartItem[]
+  id              String            @id @default(uuid())
+  name            String
+  description     String
+  price           Float
+  countInStock    Int               @map("count_in_stock")
+  category        Category          @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  categoryId      String            @map("category_id")
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime?         @updatedAt
+  images          String[]
+  Reviews         Reviews[]
+  OrderItems      OrderItem[]
+  whishlist       WishList[]
+  CartItems       CartItem[]
+  customerProduct customerProduct[]
 
   @@map("products")
   @@schema("product")
@@ -89,7 +91,7 @@ model Order {
   orderStatus OrderStatus @default(PENDING)
   createdAt   DateTime    @default(now())
   updatedAt   DateTime?   @updatedAt
-  OrderItems   OrderItem[]
+  OrderItems  OrderItem[]
 
   @@map("orders")
   @@schema("order")
@@ -127,7 +129,7 @@ model Cart {
   id         String     @id @default(uuid())
   user       User       @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   customerId String     @map("customer_id")
-  CartItems   CartItem[]
+  CartItems  CartItem[]
 
   @@map("carts")
   @@schema("cart")
@@ -158,6 +160,17 @@ model otps {
 
   @@map("otps")
   @@schema("user")
+}
+
+model customerProduct {
+  productId  String  @map("product_id")
+  customerId String  @map("customer_id")
+  product    Product @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  customer   User    @relation(fields: [customerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+
+  @@unique([productId, customerId])
+  @@map("customers_products")
+  @@schema("product")
 }
 
 enum Role {
