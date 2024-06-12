@@ -20,5 +20,8 @@ declare namespace NodeJS {
         cloud_name: string;
         api_key: string;
         api_secret: string;
+        STRIPE_SECRET_KEY: string;
+        DEV_SERVER_URL: string;
+        PROD_SERVER_URL: string;
     }
 }
