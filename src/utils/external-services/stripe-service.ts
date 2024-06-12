@@ -23,6 +23,7 @@ export class StripeService {
     ) {
         const session = await this.stripe.checkout.sessions.create({
             payment_method_types: ["card"],
+            customer_email: order.email,
             line_items: [
                 {
                     price_data: {
@@ -42,7 +43,7 @@ export class StripeService {
         return session;
     }
 
-    private getServerUrl(url: string):string {
+    private getServerUrl(url: string): string {
         return `${
             process.env.NODE_ENV !== "production"
                 ? process.env.DEV_SERVER_URL
