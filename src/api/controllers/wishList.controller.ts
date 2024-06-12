@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { asyncHandler, notImplementedHandler } from "../../utils";
+import { asyncHandler, } from "../../utils";
 import { WishListService } from "../services";
 
 class WishListController {

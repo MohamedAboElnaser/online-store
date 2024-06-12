@@ -1,4 +1,4 @@
-import { AppError } from "../../utils";
+import { AppError } from "../../utils/internal-utils";
 import { DatabaseManager } from "../../../config";
 class OrderItemsService {
     private constructor() {}

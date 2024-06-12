@@ -1,6 +1,6 @@
 import { ICartItem } from "cartItem";
 import { DatabaseManager } from "../../../config";
-import { AppError } from "../../utils";
+import { AppError } from "../../utils/internal-utils";
 
 class CartItemsService {
     private constructor() {}

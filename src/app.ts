@@ -6,7 +6,7 @@ import cookieParser from "cookie-parser";
 import { v2 as cloudinary } from "cloudinary";
 import { mainRouter } from "./api/routes";
 import { globalErrorHandler } from "./api/middlewares";
-import { AppError } from "./utils";
+import {  AppError } from "./utils";
 import { DatabaseManager, passportConfig } from "../config";
 
 //load env variables

@@ -1,6 +1,6 @@
 import nodemailer from "nodemailer";
 
-class Email {
+export class Email {
     private to: string;
     private subject: string;
     private message: string;

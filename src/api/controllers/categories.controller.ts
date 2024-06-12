@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { asyncHandler } from "../../utils";
+import { asyncHandler } from "../../utils/internal-utils";
 import { CategoriesService } from "../services";
 
 class CategoriesController {

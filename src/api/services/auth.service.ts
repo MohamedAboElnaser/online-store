@@ -1,6 +1,11 @@
 import bcrypt from "bcrypt";
 import { DatabaseManager } from "../../../config";
-import { OTPService, AppError, Email, JWTUtil } from "../../utils";
+import {
+    OTPService,
+    AppError,
+    Email,
+    JWTUtil,
+} from "../../utils";
 import { IToken } from "token";
 
 class AuthService {

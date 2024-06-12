@@ -1,6 +1,6 @@
 import passport from "passport";
 import { Request, Response, NextFunction } from "express";
-import { AppError } from "../../utils";
+import { AppError } from "../../utils/internal-utils";
 
 class AuthHandler {
     private constructor() {}

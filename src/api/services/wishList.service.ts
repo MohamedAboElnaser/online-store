@@ -1,6 +1,6 @@
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { DatabaseManager } from "../../../config";
-import { AppError } from "../../utils";
+import { AppError } from "../../utils/internal-utils";
 import { IWishlist } from "wishlist";
 
 class WishListService {

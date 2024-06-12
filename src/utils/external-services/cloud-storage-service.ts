@@ -1,7 +1,7 @@
 import { v2 as cloudinary } from "cloudinary";
-import AppError from "./appError";
+import { AppError } from "../internal-utils";
 
-class CloudStorageService {
+export class CloudStorageService {
     private constructor() {}
 
     public static async uploadFiles(
