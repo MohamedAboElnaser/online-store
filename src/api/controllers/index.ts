@@ -5,6 +5,7 @@ import WishListController from "./wishList.controller";
 import CartItemsController from "./cartItems.controller";
 import OrdersController from "./orders.controller";
 import OrderItemsController from "./orderItems.Controller";
+import PaymentController  from "./payment.controller";
 
 export {
     AuthController,
@@ -13,5 +14,6 @@ export {
     WishListController,
     CartItemsController,
     OrdersController,
-    OrderItemsController
+    OrderItemsController,
+    PaymentController,
 };

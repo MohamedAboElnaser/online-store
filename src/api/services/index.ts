@@ -5,6 +5,7 @@ import WishListService from "./wishList.service";
 import CartItemsService from "./cartItems.service";
 import OrdersService from "./orders.service";
 import OrderItemsService from "./orderItem.service";
+import PaymentService from "./payment.service";
 
 export {
     AuthService,
@@ -14,4 +15,5 @@ export {
     CartItemsService,
     OrdersService,
     OrderItemsService,
+    PaymentService,
 };
