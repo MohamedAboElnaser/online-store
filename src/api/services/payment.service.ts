@@ -27,6 +27,7 @@ class PaymentService {
                         unitPrice: true,
                         product: {
                             select: {
+                                id: true,
                                 countInStock: true,
                                 name: true,
                             },
@@ -79,15 +80,34 @@ class PaymentService {
             "api/v1/payments/cancel"
         );
 
-        // TODO 
+        // TODO
         /**
          * Implement Webhook endpoint to:
          * => Update the order status and set the paidAt date after payment is successful.
          * => Update number of items in stock after payment is successful.
          * => Send an email to the customer after payment is successful.
-         * => Add a record to customerProducts table to mark the product as purchased 
+         * => Add a record to customerProducts table to mark the product as purchased
          *    by the customer so he can add a review to the product.
          * */
+        // TODO Delete this query after implementing the webhook
+        // Mark that customer bought these order items so he can add reviews to them
+        const upsertPromises = order.OrderItems.map((item) =>
+            DatabaseManager.getInstance().customerProduct.upsert({
+                where: {
+                    productId_customerId: {
+                        customerId: customer.id,
+                        productId: item.product.id,
+                    },
+                },
+                update: {},
+                create: {
+                    customerId: customer.id,
+                    productId: item.product.id,
+                },
+            })
+        );
+        await Promise.all(upsertPromises);
+
         return session.url;
     }
 }
