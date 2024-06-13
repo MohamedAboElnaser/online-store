@@ -17,7 +17,7 @@ const reviewSchema: TEndpointSchema[] = [
         schema: joi
             .object({
                 rating: joi.number().min(1).max(5).required(),
-                comment: joi.string().min(3).required(),
+                comment: joi.string().min(3),
             })
             .prefs({ abortEarly: false, stripUnknown: true }),
     },
