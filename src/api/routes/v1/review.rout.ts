@@ -22,4 +22,11 @@ reviewsRouter
         MulterService.getNoneMethod(),
         validator(reviewsSchemas),
         ReviewsController.updateReview
+    ).delete(
+        AuthHandler.authenticate,
+        AuthHandler.authorize("CUSTOMER"),
+        
+        validator(reviewsSchemas),
+        ReviewsController.deleteReview
     );
+

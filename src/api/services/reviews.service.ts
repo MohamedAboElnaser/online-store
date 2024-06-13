@@ -99,6 +99,30 @@ class ReviewsService {
 
         return updatedReview as IReview;
     }
+
+    public static async deleteOne(
+        productId: string,
+        reviewId: string,
+        customerId: string
+    ) {
+        const review = await DatabaseManager.getInstance().reviews.findUnique({
+            where: {
+                id: reviewId,
+                userId: customerId,
+                productId,
+            },
+        });
+
+        if (!review) {
+            throw new AppError("Review not found", 404);
+        }
+
+        await DatabaseManager.getInstance().reviews.delete({
+            where: {
+                id: reviewId,
+            },
+        });
+    }
 }
 
 export { ReviewsService };

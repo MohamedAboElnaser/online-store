@@ -50,13 +50,28 @@ export class ReviewsController {
                 req.body
             );
 
-        res.status(200).json({
-            status: "success",
-            message:'Review updated successfully',
-            data:{
-                updatedReview
-            }
-        })
+            res.status(200).json({
+                status: "success",
+                message: "Review updated successfully",
+                data: {
+                    updatedReview,
+                },
+            });
+        }
+    );
+
+    public static deleteReview = asyncHandler(
+        async (
+            req: Request<{ productId: string; reviewId: string }>,
+            res: Response,
+            next: NextFunction
+        ) => {
+            const { id: customerId } = req.user as IUser;
+            const { productId, reviewId } = req.params;
+
+            await ReviewsService.deleteOne(productId, reviewId, customerId);
+
+            res.status(204).send();
         }
     );
 }
