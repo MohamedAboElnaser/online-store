@@ -30,6 +30,35 @@ export class ReviewsController {
             });
         }
     );
+
+    public static updateReview = asyncHandler(
+        async (
+            req: Request<
+                { productId: string; reviewId: string },
+                any,
+                { rating: number; comment?: string }
+            >,
+            res: Response,
+            next: NextFunction
+        ) => {
+            const { id: customerId } = req.user as IUser;
+            const { productId, reviewId } = req.params;
+            const updatedReview = await ReviewsService.updateOne(
+                reviewId,
+                customerId,
+                productId,
+                req.body
+            );
+
+        res.status(200).json({
+            status: "success",
+            message:'Review updated successfully',
+            data:{
+                updatedReview
+            }
+        })
+        }
+    );
 }
 
 export default ReviewsController;
