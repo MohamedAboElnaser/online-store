@@ -13,3 +13,13 @@ reviewsRouter
         validator(reviewsSchemas),
         ReviewsController.addReview
     );
+
+reviewsRouter
+    .route("/:reviewId")
+    .patch(
+        AuthHandler.authenticate,
+        AuthHandler.authorize("CUSTOMER"),
+        MulterService.getNoneMethod(),
+        validator(reviewsSchemas),
+        ReviewsController.updateReview
+    );
