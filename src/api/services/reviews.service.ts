@@ -63,6 +63,42 @@ class ReviewsService {
             throw new AppError("You have already reviewed this product", 400);
         }
     }
+
+    public static async updateOne(
+        reviewId: string,
+        customerId: string,
+        productId: string,
+        data: { rating: number; comment?: string }
+    ) {
+        const review = await DatabaseManager.getInstance().reviews.findUnique({
+            where: {
+                id: reviewId,
+                productId,
+                userId: customerId,
+            },
+        });
+        if (!review) {
+            throw new AppError("Review not found", 404);
+        }
+
+        const updatedReview =
+            await DatabaseManager.getInstance().reviews.update({
+                where: {
+                    id: reviewId,
+                },
+                data: {
+                    rating: data.rating,
+                    comment: data.comment,
+                },
+                select: {
+                    id: true,
+                    rating: true,
+                    comment: true,
+                },
+            });
+
+        return updatedReview as IReview;
+    }
 }
 
 export { ReviewsService };
