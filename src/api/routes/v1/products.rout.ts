@@ -2,6 +2,7 @@ import { Router } from "express";
 import { ProductsController } from "../../controllers";
 import { validator, AuthHandler, MulterService } from "../../middlewares";
 import { productsSchemas } from "../../../validation/schemas";
+import { reviewsRouter } from "./review.rout";
 
 const productsRouter = Router();
 
@@ -33,6 +34,9 @@ productsRouter
         validator(productsSchemas),
         ProductsController.updateOne
     );
+
+// Mount Review Router
+productsRouter.use("/:productId/reviews", reviewsRouter);
 
 export default productsRouter;
 export { productsRouter };
