@@ -197,11 +197,9 @@ class ProductsService {
         } else {
             query += ` LIMIT 20`;
         }
-        console.log("Generated query", query);
         const products = await DatabaseManager.getInstance().$queryRawUnsafe(
             `${query}`
         );
-        //TODO - add rating filter
         return products;
     }
 
