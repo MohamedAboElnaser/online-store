@@ -65,17 +65,22 @@ class ProductsService {
             where: {
                 id,
             },
-            include: {
+            select: {
+                id: true,
+                categoryId: true,
+                name: true,
+                description: true,
+                price: true,
+                countInStock: true,
+                images: true,
                 Reviews: {
-                    /*TODO 
-                        Add aggregation to get the average rating and photo of the user
-                    */
                     select: {
-                        comment: true,
                         rating: true,
+                        comment: true,
                         user: {
                             select: {
                                 firstName: true,
+                                lastName: true,
                             },
                         },
                     },
