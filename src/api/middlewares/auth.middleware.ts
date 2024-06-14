@@ -1,6 +1,7 @@
 import passport from "passport";
 import { Request, Response, NextFunction } from "express";
 import { AppError } from "../../utils/internal-utils";
+import { IUser } from "user";
 
 class AuthHandler {
     private constructor() {}
@@ -31,9 +32,7 @@ class AuthHandler {
 
     public static authorize = (...roles: string[]) => {
         return (req: Request, res: Response, next: NextFunction) => {
-            //BUG
-            // @ts-ignore
-            if (!roles.includes(req.user.role as string)) {
+            if (!roles.includes((req.user as IUser).role as string)) {
                 return next(
                     new AppError(
                         "You do not have permission to perform this action",

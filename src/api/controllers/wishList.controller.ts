@@ -1,20 +1,15 @@
 import { Request, Response, NextFunction } from "express";
 import { asyncHandler, } from "../../utils";
 import { WishListService } from "../services";
+import { IUser } from "user";
 
 class WishListController {
     private constructor() {}
 
     public static AddToWishList = asyncHandler(
         async (req: Request, res: Response, next: NextFunction) => {
-            // BUG
-            /*
-                ts complains about req.user.id 
-                although it is defined in src/types/request-user.d.ts 😲
-                and  when i log the req object , i find the user object with id property
-            */
-            // @ts-ignore
-            const { id: customerId } = req.user;
+
+            const { id: customerId } = req.user as IUser;
             const { productId } = req.body;
 
             const wishListItem = await WishListService.addToWishList(
