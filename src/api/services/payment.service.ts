@@ -14,17 +14,19 @@ class PaymentService {
          *  Create a checkout session using the StripeService.
          *  Return the payment url to the client.
          */
-        const { order, totalAmount } = await PaymentService.verifyOrderState(
+        const { order } = await PaymentService.verifyOrderState(
             orderId,
             customer
         );
 
         const session = await StripeService.getInstance().createCheckoutSession(
             {
-                name: `${customer.firstName}-${customer.lastName} Order`,
                 email: customer.email,
-                price: totalAmount,
-                quantity: 1,
+                items: order.OrderItems.map((orderItem) => ({
+                    name: orderItem.product.name,
+                    unitePrice: orderItem.unitPrice,
+                    quantity: orderItem.quantity,
+                })),
             },
             "api/v1/payments/success",
             "api/v1/payments/cancel"
@@ -140,12 +142,7 @@ class PaymentService {
             throw new AppError(errorMessage, 400);
         }
 
-        const totalAmount = order.OrderItems.reduce(
-            (acc, orderItem) => acc + orderItem.quantity * orderItem.unitPrice,
-            0
-        );
-        // return the order details and total amount
-        return { order, totalAmount };
+        return { order };
     }
 }
 

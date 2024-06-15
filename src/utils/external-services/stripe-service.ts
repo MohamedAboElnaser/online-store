@@ -24,18 +24,16 @@ export class StripeService {
         const session = await this.stripe.checkout.sessions.create({
             payment_method_types: ["card"],
             customer_email: order.email,
-            line_items: [
-                {
-                    price_data: {
-                        currency: "usd",
-                        product_data: {
-                            name: order.name,
-                        },
-                        unit_amount: order.price * 100,
+            line_items: order.items.map((item) => ({
+                price_data: {
+                    currency: "usd",
+                    product_data: {
+                        name: item.name,
                     },
-                    quantity: order?.quantity || 1,
+                    unit_amount: item.unitePrice * 100,
                 },
-            ],
+                quantity: item.quantity,
+            })),
             mode: "payment",
             success_url: this.getServerUrl(success_url),
             cancel_url: this.getServerUrl(cancel_url),
