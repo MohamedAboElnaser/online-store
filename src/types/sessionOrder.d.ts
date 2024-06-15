@@ -1,8 +1,12 @@
+import { IOrderItem } from "orderItem";
+
 interface ISessionOrder {
-    name: string;
-    email:string;
-    price: number;
-    quantity?: number;
+    email: string;
+    items: {
+        name: string;
+        unitePrice: number;
+        quantity: number;
+    }[];
 }
 
 export type { ISessionOrder };
