@@ -25,6 +25,7 @@ model User {
   createdAt       DateTime          @default(now())
   updatedAt       DateTime?         @updatedAt
   isVerified      Boolean           @default(false)
+  photo           String?
   Reviews         Reviews[]
   Orders          Order[]
   wishList        WishList[]
