@@ -1,6 +1,11 @@
 import { Router } from "express";
 import { ProductsController } from "../../controllers";
-import { validator, AuthHandler, MulterService } from "../../middlewares";
+import {
+    validator,
+    AuthHandler,
+    MulterService,
+    rateLimiter,
+} from "../../middlewares";
 import { productsSchemas } from "../../../validation/schemas";
 import { reviewsRouter } from "./review.rout";
 
@@ -21,12 +26,12 @@ productsRouter
         MulterService.getNoneMethod(),
         validator(productsSchemas),
         ProductsController.deleteProducts
-    ) //TODO - Add rate limiting middleware to this route as it is public and can be abused
+    )
     .get(validator(productsSchemas), ProductsController.getAll);
 
 productsRouter
     .route("/:productId")
-    .get(ProductsController.getOne) //TODO - Add rate limiting middleware to this route
+    .get(rateLimiter(50, 60), ProductsController.getOne)
     .patch(
         AuthHandler.authenticate,
         AuthHandler.authorize("ADMIN"),
