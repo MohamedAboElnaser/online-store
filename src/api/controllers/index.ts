@@ -7,6 +7,7 @@ import OrdersController from "./orders.controller";
 import OrderItemsController from "./orderItems.Controller";
 import PaymentController  from "./payment.controller";
 import ReviewsController from "./reviews.controller";
+import UsersController from "./user.controller";
 
 export {
     AuthController,
@@ -18,4 +19,5 @@ export {
     OrderItemsController,
     PaymentController,
     ReviewsController,
+    UsersController
 };
