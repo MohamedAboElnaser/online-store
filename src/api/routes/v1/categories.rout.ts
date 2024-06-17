@@ -1,5 +1,10 @@
 import { Router } from "express";
-import { AuthHandler, validator, MulterService } from "../../middlewares";
+import {
+    AuthHandler,
+    validator,
+    MulterService,
+    rateLimiter,
+} from "../../middlewares";
 import { CategoriesController } from "../../controllers";
 import { categoriesSchemas } from "../../../validation/schemas";
 
@@ -33,7 +38,8 @@ categoriesRouter
     )
     .get(CategoriesController.fetchCategory);
 
-//TODO - Add rate limiting middleware
-categoriesRouter.route("/").get(CategoriesController.fetchCategories);
+categoriesRouter
+    .route("/")
+    .get(rateLimiter(20, 60), CategoriesController.fetchCategories);
 export default categoriesRouter;
 export { categoriesRouter };
