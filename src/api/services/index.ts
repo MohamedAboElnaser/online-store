@@ -7,6 +7,7 @@ import OrdersService from "./orders.service";
 import OrderItemsService from "./orderItem.service";
 import PaymentService from "./payment.service";
 import ReviewsService from "./reviews.service";
+import UsersService from "./user.service";
 
 export {
     AuthService,
@@ -18,4 +19,5 @@ export {
     OrderItemsService,
     PaymentService,
     ReviewsService,
+    UsersService
 };
