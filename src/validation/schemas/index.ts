@@ -7,6 +7,7 @@ import orderSchemas from "./order.schema";
 import orderItemSchemas from "./orderItems.schema";
 import paymentSchemas from "./payment.schema";
 import reviewsSchemas from "./review.schema";
+import userSchemas from "./user.schema";
 
 export {
     authSchemas,
@@ -18,4 +19,5 @@ export {
     orderItemSchemas,
     paymentSchemas,
     reviewsSchemas,
+    userSchemas,
 };
