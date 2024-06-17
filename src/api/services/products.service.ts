@@ -178,7 +178,7 @@ class ProductsService {
         let query = `SELECT id, name, price, description, images FROM product.products WHERE 1=1`;
 
         if (opts.name) {
-            query += ` AND name ILIKE '%${opts.name}%'`;
+            query += ` AND (name ILIKE '%${opts.name}%' OR description ILIKE '%${opts.name}%')`;
         }
 
         if (opts.price_min) {
