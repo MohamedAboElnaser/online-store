@@ -1,4 +1,4 @@
-import { Router } from "express";
+import express, { Router } from "express";
 import { AuthHandler, MulterService, validator } from "../../middlewares";
 import { paymentSchemas } from "../../../validation/schemas";
 import { PaymentController } from "../../controllers";
@@ -13,10 +13,14 @@ paymentsRouter.post(
     PaymentController.createCheckoutSession
 );
 
-// paymentsRouter.post('/webhook', MulterService.none, PaymentController.webhook)
+paymentsRouter.post(
+    "/webhooks",
+    express.raw({ type: "application/json" }),
+    PaymentController.webhook
+);
 
 paymentsRouter.get("/success", (req, res) => {
-    res.status(200).json({ 
+    res.status(200).json({
         message:
             "Payment done successfully ✅, Check your email for the receipt",
     });
