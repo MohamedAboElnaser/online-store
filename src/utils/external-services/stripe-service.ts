@@ -24,6 +24,7 @@ export class StripeService {
         const session = await this.stripe.checkout.sessions.create({
             payment_method_types: ["card"],
             customer_email: order.email,
+            client_reference_id: order.orderId,
             line_items: order.items.map((item) => ({
                 price_data: {
                     currency: "usd",

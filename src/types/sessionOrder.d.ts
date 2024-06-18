@@ -1,6 +1,7 @@
 import { IOrderItem } from "orderItem";
 
 interface ISessionOrder {
+    orderId:string;
     email: string;
     items: {
         name: string;

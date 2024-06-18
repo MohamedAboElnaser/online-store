@@ -21,6 +21,7 @@ class PaymentService {
 
         const session = await StripeService.getInstance().createCheckoutSession(
             {
+                orderId: orderId,
                 email: customer.email,
                 items: order.OrderItems.map((orderItem) => ({
                     name: orderItem.product.name,
