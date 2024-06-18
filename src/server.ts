@@ -8,7 +8,7 @@ process.on("SIGINT", () => {
 
 const server = new Server(app);
 
-server.listen(3000, () => {
+server.listen(process.env.PORT || 3000, () => {
     console.log(
         `Server is running at ${process.env.NODE_ENV} mode at port ${process.env.PORT} 🚀`
     );
