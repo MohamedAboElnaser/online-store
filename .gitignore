@@ -44,3 +44,6 @@ yarn.lock
 mail-server/*
 
 uploads-directory
+
+# Ignore .drawio files
+*.drawio
