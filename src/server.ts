@@ -1,7 +1,9 @@
 import { Server } from "http";
 import app from "./app";
+import { DatabaseManager } from "../config";
 
-process.on("SIGINT", () => {
+process.on("SIGINT", async () => {
+    await DatabaseManager.disconnect();
     console.log("Server shutting down gracefully...");
     process.exit(0); // exit with success
 });
