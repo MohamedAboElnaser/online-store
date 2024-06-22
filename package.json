@@ -5,7 +5,7 @@
     "main": "src/server.ts",
     "scripts": {
         "start:dev": "tsc && yarn run seed && ts-node src/server.ts",
-        "start:stag": "yarn run seed && yarn run build && node dist/src/server.js",
+        "start:stag": "yarn run build && yarn run seed  && node dist/src/server.js",
         "dev": "nodemon",
         "seed": "npx prisma db seed",
         "build": "tsc"
