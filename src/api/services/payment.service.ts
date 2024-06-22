@@ -1,6 +1,8 @@
 import { IUser } from "user";
 import { DatabaseManager } from "../../../config";
 import { AppError, StripeService } from "../../utils";
+import { IOrder } from "order";
+import { IOrderItem } from "orderItem";
 class PaymentService {
     private constructor() {}
 
@@ -33,45 +35,19 @@ class PaymentService {
             "api/v1/payments/cancel"
         );
 
-        // TODO
-        /**
-         * Implement Webhook endpoint to:
-         * => Update the order status and set the paidAt date after payment is successful.
-         * => Update number of items in stock after payment is successful.
-         * => Send an email to the customer after payment is successful.
-         * => Add a record to customerProducts table to mark the product as purchased
-         *    by the customer so he can add a review to the product.
-         * */
-        // TODO Delete below queries after implementing the webhook endpoint
+        /* TODO Delete below queries after implementing the webhook endpoint */
         /* 
-          Mark that customer bought these order items so he can add reviews to them
+          Mark that customer bought these order items so he can add reviews to them.
           Update status of the order to COMPLETED
+          Subtract the quantity of each order item from the store
         */
-        const upsertPromises = order.OrderItems.map((item) =>
-            DatabaseManager.getInstance().customerProduct.upsert({
-                where: {
-                    productId_customerId: {
-                        customerId: customer.id,
-                        productId: item.product.id,
-                    },
-                },
-                update: {},
-                create: {
-                    customerId: customer.id,
-                    productId: item.product.id,
-                },
-            })
-        );
-        await Promise.all(upsertPromises);
-        await DatabaseManager.getInstance().order.update({
-            where: {
-                id: orderId,
-            },
-            data: {
-                orderStatus: "COMPLETED",
-                paidAt: new Date(),
-            },
-        });
+        if (process.env.NODE_ENV !== "production") {
+            await PaymentService.updateOrderState(
+                orderId,
+                order.OrderItems as IOrderItem[],
+                customer.id
+            );
+        }
 
         return session.url;
     }
@@ -144,6 +120,55 @@ class PaymentService {
         }
 
         return { order };
+    }
+
+    /**
+     * Update the status of the order to COMPLETED and mark the order as paid.
+     * Subtract the quantity of each order item from the store.
+     */
+    public static async updateOrderState(
+        orderId: string,
+        OrderItems: IOrderItem[],
+        customerId: string
+    ): Promise<void> {
+        const upsertPromises = OrderItems.map((item) =>
+            DatabaseManager.getInstance().customerProduct.upsert({
+                where: {
+                    productId_customerId: {
+                        customerId,
+                        productId: item.product.id,
+                    },
+                },
+                update: {},
+                create: {
+                    customerId,
+                    productId: item.product.id,
+                },
+            })
+        );
+        const updateStockPromises = OrderItems.map((item) =>
+            DatabaseManager.getInstance().product.update({
+                where: {
+                    id: item.product.id,
+                },
+                data: {
+                    countInStock: {
+                        decrement: item.quantity,
+                    },
+                },
+            })
+        );
+        await Promise.all(upsertPromises);
+        await Promise.all(updateStockPromises);
+        await DatabaseManager.getInstance().order.update({
+            where: {
+                id: orderId,
+            },
+            data: {
+                orderStatus: "COMPLETED",
+                paidAt: new Date(),
+            },
+        });
     }
 }
 
