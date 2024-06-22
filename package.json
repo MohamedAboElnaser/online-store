@@ -6,7 +6,8 @@
     "scripts": {
         "start": "yarn run seed && ts-node src/server.ts",
         "dev": "nodemon",
-        "seed": "prisma db seed"
+        "seed": "prisma db seed",
+        "build": "tsc"
     },
     "keywords": [],
     "repository": "https://github.com/MohamedAboElnaser/online-store.git",
@@ -44,8 +45,7 @@
         "nodemailer": "^6.9.13",
         "passport": "^0.7.0",
         "passport-jwt": "^4.0.1",
-        "stripe": "^15.10.0",
-        "uuid": "^9.0.1"
+        "stripe": "^15.10.0"
     },
     "prisma": {
         "seed": "ts-node prisma/seed.ts"
