@@ -5,11 +5,12 @@
     "main": "src/server.ts",
     "scripts": {
         "start:dev": "tsc && yarn run seed && ts-node src/server.ts",
-        "start:stag": "yarn run build && yarn run seed  && node dist/src/server.js",
+        "start:stag": "yarn run build && yarn run migrate && yarn run seed  && node dist/src/server.js",
         "dev": "nodemon",
         "seed": "npx prisma db seed",
         "build": "tsc",
-        "start": "yarn run seed && node dist/src/server.js"
+        "start": "yarn run seed && node dist/src/server.js",
+        "migrate": "npx prisma migrate dev"
     },
     "keywords": [],
     "repository": "https://github.com/MohamedAboElnaser/online-store.git",
