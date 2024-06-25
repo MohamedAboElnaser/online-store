@@ -1,0 +1,22 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = require("express");
+const auth_rout_1 = require("./auth.rout");
+const categories_rout_1 = require("./categories.rout");
+const products_rout_1 = require("./products.rout");
+const wishList_rout_1 = require("./wishList.rout");
+const cartItems_rout_1 = require("./cartItems.rout");
+const orders_rout_1 = require("./orders.rout");
+const payment_rout_1 = require("./payment.rout");
+const user_rout_1 = require("./user.rout");
+const v1Router = (0, express_1.Router)();
+v1Router.use("/auth", auth_rout_1.authRouter);
+v1Router.use("/categories", categories_rout_1.categoriesRouter);
+v1Router.use("/products", products_rout_1.productsRouter);
+v1Router.use("/wishlists", wishList_rout_1.wishListRouter);
+v1Router.use("/cart/items", cartItems_rout_1.CartItemsRouter);
+v1Router.use("/orders", orders_rout_1.ordersRouter);
+v1Router.use("/payments", payment_rout_1.paymentsRouter);
+v1Router.use("/users", user_rout_1.userRouter);
+exports.default = v1Router;
+//# sourceMappingURL=index.js.map
