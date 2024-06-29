@@ -1,5 +1,23 @@
 # Online Store System
 
+## Tabel of Contents
+
+- [Online Store System](#online-store-system)
+  - [Tabel of Contents](#tabel-of-contents)
+  - [Introduction](#introduction)
+  - [Requirements](#requirements)
+  - [Future Enhancements](#future-enhancements)
+  - [Entity Relationship Diagram](#entity-relationship-diagram)
+  - [Database schema](#database-schema)
+  - [App Architecture](#app-architecture)
+  - [API Endpoints](#api-endpoints)
+  - [Technology Stack](#technology-stack)
+  - [Installation and Setup](#installation-and-setup)
+  - [Credit](#credit)
+  - [References](#references)
+  - [Contributing](#contributing)
+  - [License](#license)
+
 ## Introduction
 
 The Online Store System is a web-based API designed to facilitate the buying and selling of products over the internet. This platform offers a convenient and efficient way for customers to browse, select, purchase, and receive products. It supports functionalities such as product catalogue display, shopping cart management, checkout process, order management, and user authentication, catering to both admin (vendor) and customer roles.
