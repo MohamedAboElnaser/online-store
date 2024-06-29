@@ -1,9 +1,9 @@
 # Online Store System
 
-## Tabel of Contents
+## Table of Contents
 
 - [Online Store System](#online-store-system)
-  - [Tabel of Contents](#tabel-of-contents)
+  - [Table of Contents](#table-of-contents)
   - [Introduction](#introduction)
   - [Requirements](#requirements)
   - [Future Enhancements](#future-enhancements)
