@@ -1,0 +1,28 @@
+services:
+    # Backend service for online-store
+    online-store:
+        build: .
+        ports:
+            - "3000:3000"
+        working_dir: /app
+        env_file:
+            - .env
+        volumes:
+            - .:/app # Mount the current directory to the container
+        depends_on:
+            - db
+
+    # Database service for online-store
+    db:
+        image: postgres:16-alpine
+        environment:
+            - POSTGRES_USER=postgres
+            - POSTGRES_PASSWORD=postgres
+            - POSTGRES_DB=online-store
+        ports:
+            - "5433:5432" # Expose the database on port 5433 on the host not to conflict with a local database
+        volumes:
+            - online-store-db:/var/lib/postgresql/data
+
+volumes:
+    online-store-db:
